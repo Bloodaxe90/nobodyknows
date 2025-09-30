@@ -5,6 +5,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public enum TileType {
 
+    // each tile has a value based on the order they are created in this enum
     GRASS("grass", false),
     DIRT("dirt", false),
     WATER("water", true);
