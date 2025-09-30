@@ -2,7 +2,6 @@ package io.github.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.GL20;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.utils.ScreenUtils;
@@ -11,18 +10,27 @@ import com.badlogic.gdx.utils.ScreenUtils;
 public class Main extends ApplicationAdapter {
     private SpriteBatch batch;
     private Texture image;
+    private io.github.game.player player;
+    float delta;
 
     @Override
     public void create() {
         batch = new SpriteBatch();
         image = new Texture("libgdx.png");
+        player = new player();
     }
 
     @Override
     public void render() {
+        delta = Gdx.graphics.getDeltaTime();
+
         ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
         batch.begin();
-        batch.draw(image, 140, 210);
+
+        // Draw the player
+        player.update(delta);
+        batch.draw(player.entityTexture, player.xPos, player.yPos, player.width, player.height);
+
         batch.end();
     }
 
