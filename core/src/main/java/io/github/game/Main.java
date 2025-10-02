@@ -20,17 +20,12 @@ public class Main extends ApplicationAdapter {
 
     private Player player;
 
-    private float delta;
-
     @Override
     public void create() {
-        atlas = new TextureAtlas("atlas/game_atlas.atlas");
-
-        spriteBatch = new SpriteBatch();
 
         viewport = new FitViewport(320, 240); // world size is 320 by 240 pixels
 
-        player = new Player();
+//        player = new Player(32, 32, 32, 32, 200, "atlas/player/character.atlas");
 
         // TODO create a better way to make an environment, i.e. reading a file and converting it to an array?
         // Tile size is 16, world size is
@@ -54,7 +49,7 @@ public class Main extends ApplicationAdapter {
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
         };
 
-        this.environment = new Environment(atlas, environmentBlueprint);
+        this.environment = new Environment(environmentBlueprint, "atlas/environment/tile.atlas");
     }
 
     @Override
@@ -65,15 +60,12 @@ public class Main extends ApplicationAdapter {
     }
 
     public void input() {
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            // This is where you would move your player, for example
-        }
+//        player.handleInputs();
     }
 
     public void logic() {
         // update your player, enemies, and check for collisions
-        delta = Gdx.graphics.getDeltaTime();
-        player.update(delta);
+//        player.update();
     }
 
     public void draw() {
@@ -86,7 +78,7 @@ public class Main extends ApplicationAdapter {
         environment.render(spriteBatch);
 
         // Draw in here
-        player.render(spriteBatch);
+//        player.render(spriteBatch);
 
         spriteBatch.end();
     }

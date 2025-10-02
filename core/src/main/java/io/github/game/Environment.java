@@ -1,32 +1,39 @@
 package io.github.game;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class Environment {
 
-    private Tile[][] tiles;
+    private Tile[][] environment;
     private int width;
     private int height;
+    private TextureAtlas tileAtlas;
 
-    public Environment(TextureAtlas atlas, int[][] environment) {
-        TileType.loadTileTextures(atlas);
+    public Environment(int[][] environmentBlueprint, String atlas_path) {
+        this.width = environmentBlueprint[0].length;
+        this.height = environmentBlueprint.length;
+        this.environment = new Tile[height][width];
+        this.tileAtlas = new TextureAtlas("/Users/Eric/IdeaProjects/nobodyknows/assets/atlas/environment/tiles.atlas");
 
-        this.width = environment[0].length;
-        this.height = environment.length;
-        this.tiles = new Tile[height][width];
+        TileType.loadTileTextures(tileAtlas);
 
+        createEnvironment(environmentBlueprint);
+    }
+
+    private void createEnvironment(int[][] environmentBlueprint) {
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
 
-                int tileValue = environment[row][col];
+                int tileValue = environmentBlueprint[row][col];
                 TileType type = TileType.values()[tileValue];
 
                 // LibGDX renders from the bottom left so flipped the row index
                 int worldX = col * Tile.SIZE;
                 int worldY = (height - 1 - row) * Tile.SIZE;
 
-                tiles[row][col] = new Tile(type, worldX, worldY);
+                environment[row][col] = new Tile(type, worldX, worldY);
             }
         }
     }
@@ -34,15 +41,8 @@ public class Environment {
     public void render(SpriteBatch batch) {
         for (int row = 0; row < height; row++) {
             for (int col = 0; col < width; col++) {
-                tiles[row][col].render(batch);
+                environment[row][col].render(batch);
             }
         }
-    }
-
-    public Tile getTile(int row, int col) {
-        if (row < 0 || row >= height || col < 0 || col >= width) {
-            return null;
-        }
-        return tiles[row][col];
     }
 }
