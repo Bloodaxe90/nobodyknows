@@ -2,37 +2,99 @@ package io.github.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.Input;
+import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.ScreenUtils;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
-    private SpriteBatch batch;
-    float delta;
-    Player player;
+    private TextureAtlas atlas;
+
+    private SpriteBatch spriteBatch;
+    private FitViewport viewport;
+
+    private Environment environment;
 
     @Override
     public void create() {
-        batch = new SpriteBatch();
-        player = new Player();
+        atlas = new TextureAtlas("/Users/Eric/IdeaProjects/nobodyknows/assets/atlas/game_atlas.atlas");
+
+        spriteBatch = new SpriteBatch();
+
+        viewport = new FitViewport(320, 240); // world size is 320 by 240 pixels
+
+        // TODO create a better way to make an environment, i.e. reading a file and converting it to an array?
+        // Tile size is 16, world size is
+        // 320 / 16 = 20, 240 / 16 = 15
+        // environmentBlueprint is 20 by 15 tiles
+        int[][] environmentBlueprint = {
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}, // 0 is grass
+            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, // 1 is dirt
+            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1}, // 2 is water
+            {1, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+            {1, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+            {1, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 1},
+            {1, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 1},
+            {1, 0, 0, 0, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 1},
+            {1, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 1},
+            {1, 0, 0, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 2, 0, 0, 0, 1},
+            {1, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+            {1, 0, 0, 2, 2, 2, 2, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+            {1, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 1},
+            {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
+        };
+
+        this.environment = new Environment(atlas, environmentBlueprint);
     }
 
     @Override
     public void render() {
-        delta = Gdx.graphics.getDeltaTime();
+        input();
+        logic();
+        draw();
+    }
 
-        ScreenUtils.clear(0.15f, 0.15f, 0.2f, 1f);
-        batch.begin();
+    public void input() {
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            // This is where you would move your player, for example
+        }
+    }
 
-        // Draw the player
-        player.update(delta);
-        player.render(batch);  
+    public void logic() {
+        // update your player, enemies, and check for collisions
+    }
 
-        batch.end();
+    public void draw() {
+        ScreenUtils.clear(Color.BLACK);
+        viewport.apply();
+        spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
+
+        spriteBatch.begin();
+
+        environment.render(spriteBatch);
+
+        // Draw in here
+
+        spriteBatch.end();
+    }
+
+    @Override
+    public void resize(int width, int height) {
+        viewport.update(width, height, true);
     }
 
     @Override
     public void dispose() {
-        batch.dispose();
+        spriteBatch.dispose();
+        atlas.dispose();
     }
+    @Override
+    public void pause() {}
+
+    @Override
+    public void resume() {}
 }
