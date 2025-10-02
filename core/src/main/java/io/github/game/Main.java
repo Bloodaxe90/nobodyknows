@@ -26,6 +26,7 @@ public class Main extends ApplicationAdapter {
         viewport = new FitViewport(320, 240); // world size is 320 by 240 pixels
 
         player = new Player(32, 32, 32, 32, 200, new TextureAtlas("atlas/character.atlas"));
+        // TODO Make a thing for sprite animations, am sure the engine has something
         // TODO create a better way to make an environment, i.e. reading a file and converting it to an array?
         // Tile size is 16, world size is
         // 320 / 16 = 20, 240 / 16 = 15
@@ -59,23 +60,16 @@ public class Main extends ApplicationAdapter {
     }
 
     public void input() {
-        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            player.move("UP");
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            player.move("DOWN");
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            player.move("LEFT");
-        }
-        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            player.move("RIGHT");
-        }
+        player.setMovingUp(Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W));
+        player.setMovingDown(Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S));
+        player.setMovingLeft(Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A));
+        player.setMovingRight(Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D));
     }
 
     public void logic() {
+        float delta_t = Gdx.graphics.getDeltaTime();
         // update your player, enemies, and check for collisions
-        player.update();
+        player.update(delta_t);
     }
 
     public void draw() {
@@ -85,9 +79,8 @@ public class Main extends ApplicationAdapter {
 
         spriteBatch.begin();
 
-        environment.render(spriteBatch);
-
         // Draw in here
+        environment.render(spriteBatch);
         player.render(spriteBatch);
 
         spriteBatch.end();

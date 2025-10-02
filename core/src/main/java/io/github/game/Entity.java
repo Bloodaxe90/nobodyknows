@@ -13,7 +13,6 @@ public abstract class Entity {
 
     protected float speed;
     protected float vx, vy;
-    protected static final List<String> ACTIONS = List.of("UP", "DOWN", "LEFT", "RIGHT");
 
 
     protected Rectangle hitbox;
@@ -51,31 +50,7 @@ public abstract class Entity {
 
     public abstract void render(SpriteBatch batch);
 
-    public abstract void update();
-
-    public void move(String action) {
-        vx = 0;
-        vy = 0;
-        float delta = Gdx.graphics.getDeltaTime();
-
-        if (ACTIONS.contains(action)) {
-            if (action.equals("UP")) {
-                vy += speed;
-            }
-            if (action.equals("DOWN")) {
-                vy -= speed;
-            }
-            if (action.equals("LEFT")) {
-                vx -= speed;
-            }
-            if (action.equals("RIGHT")) {
-                vx += speed;
-            }
-        }
-
-        xPos += (vx * delta);
-        yPos += (vy * delta);
-    }
+    public abstract void update(float delta_t);
 
     public void addSprite(String name, int types) {
         Sprite[] sprites = new Sprite[types];
