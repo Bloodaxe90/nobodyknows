@@ -6,8 +6,11 @@ public class Hitbox {
     int yPos;
     int width;
     int height;
+    int xOffset;
+    int yOffset;
 
-    public Hitbox(int xPos, int yPos, int width, int height) {
+    public Hitbox(int xPos, int yPos, int width, int height, int xOffset, int yOffset) {
+
         this.xPos = xPos;
         this.yPos = yPos;
         this.width = width;
