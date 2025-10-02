@@ -29,7 +29,7 @@ public class Main extends ApplicationAdapter {
 
         // Draw the player
         player.update(delta);
-        batch.draw(player.entityTexture, player.xPos, player.yPos, player.width, player.height);
+        player.render(batch);  
 
         batch.end();
     }

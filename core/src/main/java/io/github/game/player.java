@@ -3,36 +3,43 @@ package io.github.game;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
 public class player extends Entity {
 
     public player() {
-        super(new Texture("player.png"));
-        width = 128;
-        height = 128;
+        super(new Texture("player.png"), 128, 128);
+        hitBox = new int[] {width, height};
         speed = 500;
     }
 
+    @Override
+    public void render(SpriteBatch batch) {
+        batch.draw(entityTexture, xPos, yPos, width, height);
+    }
+
     // Runs every frame
+    @Override
     public void update(float delta) {
         // Reset velocity of player each frame
         vx = 0;
         vy = 0;
 
-        // Handle movement
+        // Set player velocity based on which input key(s) are pressed
         if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
-            vx = -speed;
+            vx -= speed;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
-            vx = speed;
+            vx += speed;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
-            vy = speed;
+            vy += speed;
         }
         if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
-            vy = -speed;
+            vy -= speed;
         }
-        // Update player position
+
+        // Update player position based on velocity
         xPos += vx * delta;
         yPos += vy * delta;
 

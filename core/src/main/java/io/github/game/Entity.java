@@ -1,7 +1,8 @@
 package io.github.game;
 import com.badlogic.gdx.graphics.Texture;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 
-public class Entity {
+public abstract class Entity {
     Texture entityTexture;
     int health;
     int damage;
@@ -14,9 +15,15 @@ public class Entity {
     int vx;
     int vy;
 
-    public Entity(Texture entityTexture) {
+    public Entity(Texture entityTexture, int width, int height) {
+        xPos = 0;
+        yPos = 0;
         this.entityTexture = entityTexture;
-        this.hitBox = new int[] {width, height};
+        this.width = width;
+        this.height = height;
     }
+
+    public abstract void update(float delta);
+    public abstract void render(SpriteBatch batch);
 
 }
