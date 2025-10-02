@@ -9,15 +9,15 @@ public class Environment {
     private Tile[][] environment;
     private int width;
     private int height;
-    private TextureAtlas tileAtlas;
+    private final TextureAtlas tilesAtlas;
 
-    public Environment(int[][] environmentBlueprint, String atlas_path) {
+    public Environment(int[][] environmentBlueprint, TextureAtlas tilesAtlas) {
         this.width = environmentBlueprint[0].length;
         this.height = environmentBlueprint.length;
         this.environment = new Tile[height][width];
-        this.tileAtlas = new TextureAtlas("/Users/Eric/IdeaProjects/nobodyknows/assets/atlas/environment/tiles.atlas");
+        this.tilesAtlas = tilesAtlas;
 
-        TileType.loadTileTextures(tileAtlas);
+        TileType.loadTileTextures(tilesAtlas);
 
         createEnvironment(environmentBlueprint);
     }
@@ -44,5 +44,9 @@ public class Environment {
                 environment[row][col].render(batch);
             }
         }
+    }
+
+    public void dispose() {
+        tilesAtlas.dispose();
     }
 }

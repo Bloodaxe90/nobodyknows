@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
-    private TextureAtlas atlas;
 
     private SpriteBatch spriteBatch;
     private FitViewport viewport;
@@ -23,10 +22,10 @@ public class Main extends ApplicationAdapter {
     @Override
     public void create() {
 
+        spriteBatch = new SpriteBatch();
         viewport = new FitViewport(320, 240); // world size is 320 by 240 pixels
 
-//        player = new Player(32, 32, 32, 32, 200, "atlas/player/character.atlas");
-
+        player = new Player(32, 32, 32, 32, 200, new TextureAtlas("atlas/character.atlas"));
         // TODO create a better way to make an environment, i.e. reading a file and converting it to an array?
         // Tile size is 16, world size is
         // 320 / 16 = 20, 240 / 16 = 15
@@ -49,7 +48,7 @@ public class Main extends ApplicationAdapter {
             {1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1, 1}
         };
 
-        this.environment = new Environment(environmentBlueprint, "atlas/environment/tile.atlas");
+        this.environment = new Environment(environmentBlueprint, new TextureAtlas("atlas/tiles.atlas"));
     }
 
     @Override
@@ -60,12 +59,23 @@ public class Main extends ApplicationAdapter {
     }
 
     public void input() {
-//        player.handleInputs();
+        if (Gdx.input.isKeyPressed(Input.Keys.UP)) {
+            player.move("UP");
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.DOWN)) {
+            player.move("DOWN");
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.LEFT)) {
+            player.move("LEFT");
+        }
+        if (Gdx.input.isKeyPressed(Input.Keys.RIGHT)) {
+            player.move("RIGHT");
+        }
     }
 
     public void logic() {
         // update your player, enemies, and check for collisions
-//        player.update();
+        player.update();
     }
 
     public void draw() {
@@ -78,7 +88,7 @@ public class Main extends ApplicationAdapter {
         environment.render(spriteBatch);
 
         // Draw in here
-//        player.render(spriteBatch);
+        player.render(spriteBatch);
 
         spriteBatch.end();
     }
@@ -91,7 +101,8 @@ public class Main extends ApplicationAdapter {
     @Override
     public void dispose() {
         spriteBatch.dispose();
-        atlas.dispose();
+        environment.dispose();
+        player.dispose();
     }
     @Override
     public void pause() {}

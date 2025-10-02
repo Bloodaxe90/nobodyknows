@@ -5,15 +5,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.Rectangle;
 
-import java.util.HashMap;
-import java.util.Map;
+import java.util.*;
 
 public abstract class Entity {
-    protected int xPos, yPos;
+    protected float xPos, yPos;
     protected int width, height;
 
     protected float speed;
     protected float vx, vy;
+    protected static final List<String> ACTIONS = List.of("UP", "DOWN", "LEFT", "RIGHT");
+
 
     protected Rectangle hitbox;
     protected boolean collidable;
@@ -22,12 +23,12 @@ public abstract class Entity {
     protected TextureAtlas spriteAtlas;
     protected Sprite sprite;
 
-    public Entity(int xPos, int yPos,
+    public Entity(float xPos, float yPos,
                   int width, int height,
                   float speed,
                   float vx, float vy,
                   boolean collidable,
-                  String atlas_path) {
+                  TextureAtlas spriteAtlas) {
         this.xPos = xPos;
         this.yPos = yPos;
         this.width = width;
@@ -36,29 +37,56 @@ public abstract class Entity {
         this.vx = vx;
         this.vy = vy;
         this.collidable = collidable;
-        this.spriteAtlas = new TextureAtlas("/Users/Eric/IdeaProjects/nobodyknows/assets/atlas/player/character.atlas");
+        this.spriteAtlas = spriteAtlas;
 
         if (this.collidable) {
             this.hitbox = new Rectangle(xPos, yPos, this.width, this.height);
         }
     }
 
-    public Entity(int xPos, int yPos, int width, int height, float speed, boolean collidable, String atlas_path) {
+    public Entity(float xPos, float yPos, int width, int height, float speed, boolean collidable, TextureAtlas spriteAtlas) {
         //Entity if you want some initial velocity
-        this(xPos, yPos, width, height, speed, 0, 0, collidable, atlas_path);
+        this(xPos, yPos, width, height, speed, 0, 0, collidable, spriteAtlas);
     }
 
     public abstract void render(SpriteBatch batch);
 
     public abstract void update();
 
+    public void move(String action) {
+        vx = 0;
+        vy = 0;
+        float delta = Gdx.graphics.getDeltaTime();
+
+        if (ACTIONS.contains(action)) {
+            if (action.equals("UP")) {
+                vy += speed;
+            }
+            if (action.equals("DOWN")) {
+                vy -= speed;
+            }
+            if (action.equals("LEFT")) {
+                vx -= speed;
+            }
+            if (action.equals("RIGHT")) {
+                vx += speed;
+            }
+        }
+
+        xPos += (vx * delta);
+        yPos += (vy * delta);
+    }
 
     public void addSprite(String name, int types) {
         Sprite[] sprites = new Sprite[types];
         for (int i = 0; i < types; i++) {
-            sprites[i] = new Sprite(spriteAtlas.findRegion(name + (i + 1)));
+            sprites[i] = new Sprite(spriteAtlas.findRegion("" + name + (i + 1)));
         }
         spriteMap.put(name, sprites);
+    }
+
+    public void dispose() {
+        spriteAtlas.dispose();
     }
 
     public Sprite getSprite() {
@@ -101,19 +129,19 @@ public abstract class Entity {
         this.vx = vx;
     }
 
-    public int getxPos() {
+    public float getxPos() {
         return xPos;
     }
 
-    public void setxPos(int xPos) {
+    public void setxPos(float xPos) {
         this.xPos = xPos;
     }
 
-    public int getyPos() {
+    public float getyPos() {
         return yPos;
     }
 
-    public void setyPos(int yPos) {
+    public void setyPos(float yPos) {
         this.yPos = yPos;
     }
 
