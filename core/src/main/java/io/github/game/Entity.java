@@ -1,12 +1,14 @@
 package io.github.game;
 import com.badlogic.gdx.graphics.Texture;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 
 public abstract class Entity {
-    Texture entityTexture;
+    TextureRegion currentTexture;
     int health;
     int damage;
-    int[] hitBox;
+    Hitbox hitbox;
     int speed;
     int width;
     int height;
@@ -15,10 +17,9 @@ public abstract class Entity {
     int vx;
     int vy;
 
-    public Entity(Texture entityTexture, int width, int height) {
+    public Entity(int width, int height) {
         xPos = 0;
         yPos = 0;
-        this.entityTexture = entityTexture;
         this.width = width;
         this.height = height;
     }
