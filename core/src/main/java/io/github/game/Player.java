@@ -16,9 +16,9 @@ public class Player extends Entity {
 
 
     public Player() {
-        super(128, 128);
+        super(32, 32);
         hitbox = new Hitbox(xPos, yPos, width, height);
-        speed = 500;
+        speed = 200;
 
         // Sets up the texture map
         playerTextures.put("front", getTextureArray("front"));
