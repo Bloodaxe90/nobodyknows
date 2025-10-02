@@ -13,15 +13,8 @@ public class player extends Entity {
         speed = 500;
     }
 
-    @Override
-    public void render(SpriteBatch batch) {
-        batch.draw(entityTexture, xPos, yPos, width, height);
-    }
-
-    // Runs every frame
-    @Override
-    public void update(float delta) {
-        // Reset velocity of player each frame
+    private void handleMovement(float delta) {
+        // Reset velocity of player
         vx = 0;
         vy = 0;
 
@@ -42,6 +35,16 @@ public class player extends Entity {
         // Update player position based on velocity
         xPos += vx * delta;
         yPos += vy * delta;
+    }
 
+    @Override
+    public void render(SpriteBatch batch) {
+        batch.draw(entityTexture, xPos, yPos, width, height);
+    }
+
+    // Runs every frame
+    @Override
+    public void update(float delta) {
+        handleMovement(delta);
     }
 }
