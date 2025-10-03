@@ -1,6 +1,7 @@
 package io.github.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.Rectangle;
 
 public class Tile {
@@ -10,6 +11,7 @@ public class Tile {
     private final int xPos, yPos; // world coordinates
     private Rectangle hitbox;
 
+    private TextureRegion sprite;
     public Tile(TileType type, int xPos, int yPos) {
         this.type = type;
         this.xPos = xPos;
@@ -21,7 +23,11 @@ public class Tile {
     }
 
     public void render(SpriteBatch batch) {
-        batch.draw(type.getTextureRegion(), xPos, yPos, SIZE, SIZE);
+        batch.draw(sprite, xPos, yPos, SIZE, SIZE);
+    }
+
+    public void update(float stateTime) {
+        this.sprite = type.getAnimation().getKeyFrame(stateTime);
     }
 
     public TileType getType() {

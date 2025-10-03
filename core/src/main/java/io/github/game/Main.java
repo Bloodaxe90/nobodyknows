@@ -11,7 +11,6 @@ import com.badlogic.gdx.utils.viewport.FitViewport;
 
 /** {@link com.badlogic.gdx.ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
-
     private SpriteBatch spriteBatch;
     private FitViewport viewport;
 
@@ -70,6 +69,7 @@ public class Main extends ApplicationAdapter {
         float delta_t = Gdx.graphics.getDeltaTime();
         // update your player, enemies, and check for collisions
         player.update(delta_t);
+        environment.update(delta_t);
     }
 
     public void draw() {

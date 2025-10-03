@@ -1,6 +1,7 @@
 package io.github.game;
 
 import com.badlogic.gdx.Gdx;
+import com.badlogic.gdx.graphics.g2d.Sprite;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
@@ -11,13 +12,16 @@ public class Environment {
     private int height;
     private final TextureAtlas tilesAtlas;
 
+    private float stateTime = 0f;
+
+
     public Environment(int[][] environmentBlueprint, TextureAtlas tilesAtlas) {
         this.width = environmentBlueprint[0].length;
         this.height = environmentBlueprint.length;
         this.environment = new Tile[height][width];
         this.tilesAtlas = tilesAtlas;
 
-        TileType.loadTileTextures(tilesAtlas);
+        TileType.loadTileAnimations(tilesAtlas);
 
         createEnvironment(environmentBlueprint);
     }
@@ -39,9 +43,18 @@ public class Environment {
     }
 
     public void render(SpriteBatch batch) {
-        for (int row = 0; row < height; row++) {
-            for (int col = 0; col < width; col++) {
-                environment[row][col].render(batch);
+        for (Tile[] row : environment) {
+            for (Tile tile : row) {
+                tile.render(batch);
+            }
+        }
+    }
+
+    public void update(float delta_t) {
+        stateTime += delta_t;
+        for (Tile[] row : environment) {
+            for (Tile tile : row) {
+                tile.update(stateTime);
             }
         }
     }

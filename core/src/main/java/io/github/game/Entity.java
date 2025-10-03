@@ -1,7 +1,7 @@
 package io.github.game;
 import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Rectangle;
-import com.badlogic.gdx.utils.Array;
+import io.github.game.utils.AnimationLoader;
 
 import java.util.*;
 
@@ -19,7 +19,7 @@ public abstract class Entity {
     protected float stateTime = 0f;
 
     protected TextureAtlas spriteAtlas;
-    protected Sprite sprite;
+    protected TextureRegion sprite;
 
     public Entity(float xPos, float yPos,
                   int width, int height,
@@ -51,19 +51,10 @@ public abstract class Entity {
 
     public abstract void update(float delta_t);
 
-    public void addAnimation(String name, int frames, float duration) {
-        // Used to add an animation,
-        // name: name of the animation,
-        // frames: the number of frames in the animation (1 for un-animated sprites)
-        //  - NOTE: each image in the atlas for that animation should have a number in its file name
-        //          indication its order in the animation
-        // duration: duration of the animation (1f for un-animated sprites)
-
-        Array<TextureRegion> textureFrames = new Array<>();
-        for (int i = 0; i < frames; i++) {
-            textureFrames.add(new TextureRegion(spriteAtlas.findRegion(name + (i + 1))));
-        }
-        animationMap.put(name, new Animation<>(duration, textureFrames, Animation.PlayMode.LOOP));
+    public void addAnimation(String name, float duration, Animation.PlayMode playMode) {
+        //  NOTE: each image in the atlas for that animation should have a number at the end of
+        //  its file name indication its order in the animation (starting from frame 1)
+        animationMap.put(name, AnimationLoader.getAnimation(name, duration, spriteAtlas, playMode));
     }
 
     public void dispose() {

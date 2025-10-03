@@ -1,5 +1,6 @@
 package io.github.game;
 
+import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
@@ -15,7 +16,7 @@ public class Player extends Entity {
 
         // Sets up the sprite movement map
         for (String name : new String[]{"front", "back", "left", "right"}) {
-            addAnimation(name, 4, 0.1f);
+            addAnimation(name, 0.1f, Animation.PlayMode.LOOP);
         }
 
         setSprite("front", stateTime);
@@ -23,6 +24,7 @@ public class Player extends Entity {
 
     @Override
     public void render(SpriteBatch batch) {
+
         batch.draw(sprite, xPos, yPos, width, height);
     }
 
