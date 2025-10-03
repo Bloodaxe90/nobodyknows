@@ -1,8 +1,4 @@
 package io.github.game;
-import com.badlogic.gdx.files.FileHandle;
-
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
@@ -42,11 +38,11 @@ public class Player extends Entity {
 
         if (movingUp) {
             vy += speed;
-            setSprite("front", 0);
+            setSprite("back", 0);
         }
         if (movingDown) {
             vy -= speed;
-            setSprite("back", 0);
+            setSprite("front", 0);
         }
         if (movingLeft) {
             vx -= speed;
