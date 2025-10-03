@@ -1,11 +1,7 @@
 package io.github.game;
-import com.badlogic.gdx.files.FileHandle;
 
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
-
 
 public class Player extends Entity {
 
@@ -19,11 +15,10 @@ public class Player extends Entity {
 
         // Sets up the sprite movement map
         for (String name : new String[]{"front", "back", "left", "right"}) {
-            addSprite(name, 4);
+            addAnimation(name, 4, 0.1f);
         }
 
-        setSprite("front", 0);
-
+        setSprite("front", stateTime);
     }
 
     @Override
@@ -39,29 +34,28 @@ public class Player extends Entity {
     public void inputHandler(float delta_t) {
         vx = 0;
         vy = 0;
+        stateTime += delta_t;
 
         if (movingUp) {
             vy += speed;
-            setSprite("front", 0);
+            setSprite("back", stateTime);
         }
         if (movingDown) {
             vy -= speed;
-            setSprite("back", 0);
+            setSprite("front", stateTime);
         }
         if (movingLeft) {
             vx -= speed;
-            setSprite("left", 0);
+            setSprite("left", stateTime);
         }
         if (movingRight) {
             vx += speed;
-            setSprite("right", 0);
-
+            setSprite("right", stateTime);
         }
-
-
         xPos += (vx * delta_t);
         yPos += (vy * delta_t);
     }
+
 
     public void setMovingUp(boolean movingUp) {
         this.movingUp = movingUp;

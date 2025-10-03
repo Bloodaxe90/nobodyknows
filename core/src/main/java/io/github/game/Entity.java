@@ -1,9 +1,7 @@
 package io.github.game;
-import com.badlogic.gdx.Gdx;
-import com.badlogic.gdx.graphics.g2d.Sprite;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
-import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.*;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.utils.Array;
 
 import java.util.*;
 
@@ -14,11 +12,12 @@ public abstract class Entity {
     protected float speed;
     protected float vx, vy;
 
-
     protected Rectangle hitbox;
     protected boolean collidable;
 
-    protected Map<String, Sprite[]> spriteMap = new HashMap<>();
+    protected Map<String, Animation<TextureRegion>> animationMap = new HashMap<>();
+    protected float stateTime = 0f;
+
     protected TextureAtlas spriteAtlas;
     protected Sprite sprite;
 
@@ -52,95 +51,27 @@ public abstract class Entity {
 
     public abstract void update(float delta_t);
 
-    public void addSprite(String name, int types) {
-        Sprite[] sprites = new Sprite[types];
-        for (int i = 0; i < types; i++) {
-            sprites[i] = new Sprite(spriteAtlas.findRegion("" + name + (i + 1)));
+    public void addAnimation(String name, int frames, float duration) {
+        // Used to add an animation,
+        // name: name of the animation,
+        // frames: the number of frames in the animation (1 for un-animated sprites)
+        //  - NOTE: each image in the atlas for that animation should have a number in its file name
+        //          indication its order in the animation
+        // duration: duration of the animation (1f for un-animated sprites)
+
+        Array<TextureRegion> textureFrames = new Array<>();
+        for (int i = 0; i < frames; i++) {
+            textureFrames.add(new TextureRegion(spriteAtlas.findRegion(name + (i + 1))));
         }
-        spriteMap.put(name, sprites);
+        animationMap.put(name, new Animation<>(duration, textureFrames, Animation.PlayMode.LOOP));
     }
 
     public void dispose() {
         spriteAtlas.dispose();
     }
 
-    public Sprite getSprite() {
-        return sprite;
+    public void setSprite(String name, float stateTime) {
+        sprite = new Sprite(animationMap.get(name).getKeyFrame(stateTime));
     }
 
-    public void setSprite(String name, int type) {
-        sprite = spriteMap.get(name)[type];
-    }
-
-    public boolean isCollidable() {
-        return collidable;
-    }
-
-    public void setCollidable(boolean collidable) {
-        this.collidable = collidable;
-    }
-
-    public float getVy() {
-        return vy;
-    }
-
-    public void setVy(float vy) {
-        this.vy = vy;
-    }
-
-    public Rectangle getHitbox() {
-        return hitbox;
-    }
-
-    public void setHitbox(Rectangle hitbox) {
-        this.hitbox = hitbox;
-    }
-
-    public float getVx() {
-        return vx;
-    }
-
-    public void setVx(float vx) {
-        this.vx = vx;
-    }
-
-    public float getxPos() {
-        return xPos;
-    }
-
-    public void setxPos(float xPos) {
-        this.xPos = xPos;
-    }
-
-    public float getyPos() {
-        return yPos;
-    }
-
-    public void setyPos(float yPos) {
-        this.yPos = yPos;
-    }
-
-    public int getWidth() {
-        return width;
-    }
-
-    public void setWidth(int width) {
-        this.width = width;
-    }
-
-    public int getHeight() {
-        return height;
-    }
-
-    public void setHeight(int height) {
-        this.height = height;
-    }
-
-    public float getSpeed() {
-        return speed;
-    }
-
-    public void setSpeed(float speed) {
-        this.speed = speed;
-    }
 }
