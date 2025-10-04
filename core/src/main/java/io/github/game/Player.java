@@ -7,13 +7,15 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 public class Player extends Entity {
 
     private boolean movingUp, movingDown, movingLeft, movingRight;
+    private Environment environment;
 
     public Player(float xPos, float yPos,
                   int width, int height,
                   float speed,
-                  TextureAtlas spriteAtlas) {
+                  TextureAtlas spriteAtlas,
+                  Environment environment) {
         super(xPos, yPos, width, height, speed, true, spriteAtlas);
-
+        this.environment = environment;
         // Sets up the sprite movement map
         for (String name : new String[]{"front", "back", "left", "right"}) {
             addAnimation(name, 0.1f, Animation.PlayMode.LOOP);
@@ -30,34 +32,43 @@ public class Player extends Entity {
 
     @Override
     public void update(float delta_t) {
-        inputHandler(delta_t);
-    }
-
-    public void inputHandler(float delta_t) {
         vx = 0;
         vy = 0;
+        if (movingLeft) vx = -speed;
+        if (movingRight) vx = speed;
+        if (movingUp) vy = speed;
+        if (movingDown) vy = -speed;
+
+        xPos += vx * delta_t;
+        hitbox.setX(xPos);
+
+        if (environment.checkCollision(this)) {
+            xPos -= vx * delta_t;
+            vx = 0;
+            hitbox.setX(xPos);
+        }
+
+        yPos += vy * delta_t;
+        hitbox.setY(yPos);
+
+        if (environment.checkCollision(this)) {
+            yPos -= vy * delta_t;
+            vy = 0;
+            hitbox.setY(yPos);
+        }
+
         stateTime += delta_t;
 
-        if (movingUp) {
-            vy += speed;
+        if (vx > 0) {
+            setSprite("right", stateTime);
+        } else if (vx < 0) {
+            setSprite("left", stateTime);
+        } else if (vy > 0) {
             setSprite("back", stateTime);
-        }
-        if (movingDown) {
-            vy -= speed;
+        } else if (vy < 0) {
             setSprite("front", stateTime);
         }
-        if (movingLeft) {
-            vx -= speed;
-            setSprite("left", stateTime);
-        }
-        if (movingRight) {
-            vx += speed;
-            setSprite("right", stateTime);
-        }
-        xPos += (vx * delta_t);
-        yPos += (vy * delta_t);
     }
-
 
     public void setMovingUp(boolean movingUp) {
         this.movingUp = movingUp;

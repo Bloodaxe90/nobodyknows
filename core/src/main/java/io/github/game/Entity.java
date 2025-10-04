@@ -38,12 +38,12 @@ public abstract class Entity {
         this.spriteAtlas = spriteAtlas;
 
         if (this.collidable) {
-            this.hitbox = new Rectangle(xPos, yPos, this.width, this.height);
+            this.hitbox = new Rectangle(xPos, yPos, this.width, this.height * 2);
         }
     }
 
     public Entity(float xPos, float yPos, int width, int height, float speed, boolean collidable, TextureAtlas spriteAtlas) {
-        //Entity if you want some initial velocity
+        //Entity if you want no initial velocity
         this(xPos, yPos, width, height, speed, 0, 0, collidable, spriteAtlas);
     }
 
@@ -64,5 +64,4 @@ public abstract class Entity {
     public void setSprite(String name, float stateTime) {
         sprite = new Sprite(animationMap.get(name).getKeyFrame(stateTime));
     }
-
 }
