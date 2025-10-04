@@ -62,6 +62,26 @@ public class Player extends Entity {
         hitbox.update((int)(xPos + vx * delta_t), (int)(yPos + vy * delta_t));
         if (isCollision(environment)) {
             hitbox.update(xPos, yPos);
+
+            // If trying to move diagonally, try single directions
+            if (vx != 0 && vy !=0) {
+                // Try moving horizontally
+                hitbox.update((int)(xPos + vx * delta_t), yPos);
+                if (isCollision(environment)) {
+                    hitbox.update(xPos, yPos);
+                }
+                else {
+                    xPos += vx * delta_t;
+                }
+                // Try moving vertically
+                hitbox.update(xPos, (int)(yPos + vy * delta_t));
+                if (isCollision(environment)) {
+                    hitbox.update(xPos, yPos);
+                }
+                else {
+                    yPos += vy * delta_t;
+                }
+            }
         }
         else {
             xPos += vx * delta_t;
