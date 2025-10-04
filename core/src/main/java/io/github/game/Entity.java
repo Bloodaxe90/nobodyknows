@@ -11,7 +11,7 @@ import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import io.github.game.utils.AnimationLoader;
 
 public abstract class Entity {
-    protected int xPos, yPos;
+    protected float xPos, yPos;
     protected int width, height;
 
     protected float speed;
@@ -26,7 +26,7 @@ public abstract class Entity {
     protected TextureAtlas spriteAtlas;
     protected TextureRegion sprite;
 
-    public Entity(int xPos, int yPos,
+    public Entity(float xPos, float yPos,
                   int width, int height,
                   float speed,
                   float vx, float vy,
@@ -43,7 +43,7 @@ public abstract class Entity {
         this.spriteAtlas = spriteAtlas;
     }
 
-    public Entity(int xPos, int yPos, int width, int height, float speed, boolean collidable, TextureAtlas spriteAtlas) {
+    public Entity(float xPos, float yPos, int width, int height, float speed, boolean collidable, TextureAtlas spriteAtlas) {
         //Entity if you want some initial velocity
         this(xPos, yPos, width, height, speed, 0, 0, collidable, spriteAtlas);
     }

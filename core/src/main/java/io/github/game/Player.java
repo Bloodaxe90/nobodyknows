@@ -8,7 +8,7 @@ public class Player extends Entity {
 
     private boolean movingUp, movingDown, movingLeft, movingRight;
 
-    public Player(int xPos, int yPos,
+    public Player(float xPos, float yPos,
                   int width, int height,
                   float speed,
                   TextureAtlas spriteAtlas) {
@@ -59,14 +59,14 @@ public class Player extends Entity {
         }
 
         // Move player if hitbox won't collide
-        hitbox.update((int)(xPos + vx * delta_t), (int)(yPos + vy * delta_t));
+        hitbox.update((xPos + vx * delta_t), (yPos + vy * delta_t));
         if (isCollision(environment)) {
             hitbox.update(xPos, yPos);
 
             // If trying to move diagonally, try single directions
             if (vx != 0 && vy !=0) {
                 // Try moving horizontally
-                hitbox.update((int)(xPos + vx * delta_t), yPos);
+                hitbox.update((xPos + vx * delta_t), yPos);
                 if (isCollision(environment)) {
                     hitbox.update(xPos, yPos);
                 }
@@ -74,7 +74,7 @@ public class Player extends Entity {
                     xPos += vx * delta_t;
                 }
                 // Try moving vertically
-                hitbox.update(xPos, (int)(yPos + vy * delta_t));
+                hitbox.update(xPos, (yPos + vy * delta_t));
                 if (isCollision(environment)) {
                     hitbox.update(xPos, yPos);
                 }

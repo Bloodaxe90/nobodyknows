@@ -1,13 +1,10 @@
 package io.github.game;
 public class Hitbox {
-    int xPos;
-    int yPos;
-    int width;
-    int height;
-    int xOffset;
-    int yOffset;
+    float xPos;
+    float yPos;
+    int width, height, xOffset, yOffset;
 
-    public Hitbox(int xPos, int yPos, int width, int height, int xOffset, int yOffset) {
+    public Hitbox(float xPos, float yPos, int width, int height, int xOffset, int yOffset) {
 
         this.xPos = xPos;
         this.yPos = yPos;
@@ -26,7 +23,7 @@ public class Hitbox {
     }
 
     // Updates the position of the hitbox
-    public void update(int xPos, int yPos) {
+    public void update(float xPos, float yPos) {
         this.xPos = xPos + xOffset;
         this.yPos = yPos + yOffset;
     }
