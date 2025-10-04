@@ -64,10 +64,6 @@ public class Environment {
         tilesAtlas.dispose();
     }
 
-    public Tile[][] getEnvironment() {
-        return environment;
-    }
-
     public boolean checkCollision(Entity entity) {
         Rectangle hitbox = entity.hitbox;
         int startCol = (int)(hitbox.x / Tile.SIZE);
