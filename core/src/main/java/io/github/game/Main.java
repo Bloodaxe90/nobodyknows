@@ -68,7 +68,7 @@ public class Main extends ApplicationAdapter {
     public void logic() {
         float delta_t = Gdx.graphics.getDeltaTime();
         // update your player, enemies, and check for collisions
-        player.update(delta_t);
+        player.update(delta_t, environment);
         environment.update(delta_t);
     }
 

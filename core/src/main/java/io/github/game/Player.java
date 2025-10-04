@@ -8,11 +8,14 @@ public class Player extends Entity {
 
     private boolean movingUp, movingDown, movingLeft, movingRight;
 
-    public Player(float xPos, float yPos,
+    public Player(int xPos, int yPos,
                   int width, int height,
                   float speed,
                   TextureAtlas spriteAtlas) {
         super(xPos, yPos, width, height, speed, true, spriteAtlas);
+                // Sets player hitbox to lower half of player
+
+        hitbox = new Hitbox(xPos, yPos, (int)(width * 0.5), (int)(height * 0.25), (int)(width * 0.25), 0);
 
         // Sets up the sprite movement map
         for (String name : new String[]{"front", "back", "left", "right"}) {
@@ -29,11 +32,11 @@ public class Player extends Entity {
     }
 
     @Override
-    public void update(float delta_t) {
-        inputHandler(delta_t);
+    public void update(float delta_t, Environment environment) {
+        inputHandler(delta_t, environment);
     }
 
-    public void inputHandler(float delta_t) {
+    public void inputHandler(float delta_t, Environment environment) {
         vx = 0;
         vy = 0;
         stateTime += delta_t;
@@ -54,8 +57,17 @@ public class Player extends Entity {
             vx += speed;
             setSprite("right", stateTime);
         }
-        xPos += (vx * delta_t);
-        yPos += (vy * delta_t);
+
+        // Move player if hitbox won't collide
+        hitbox.update((int)(xPos + vx * delta_t), (int)(yPos + vy * delta_t));
+        if (isCollision(environment)) {
+            hitbox.update(xPos, yPos);
+        }
+        else {
+            xPos += vx * delta_t;
+            yPos += vy * delta_t;
+        }
+
     }
 
 

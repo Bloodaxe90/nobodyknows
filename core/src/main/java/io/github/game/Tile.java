@@ -2,14 +2,13 @@ package io.github.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
 
 public class Tile {
     public static final int SIZE = 16; // Tile size in pixels
 
     private final TileType type;
     private final int xPos, yPos; // world coordinates
-    private Rectangle hitbox;
+    private Hitbox hitbox;
 
     private TextureRegion sprite;
     public Tile(TileType type, int xPos, int yPos) {
@@ -18,7 +17,7 @@ public class Tile {
         this.yPos = yPos;
 
         if (type.isCollidable()) {
-            this.hitbox = new Rectangle(xPos, yPos, SIZE, SIZE);
+            this.hitbox = new Hitbox(xPos, yPos, SIZE, SIZE, 0, 0);
         }
     }
 
@@ -34,7 +33,7 @@ public class Tile {
         return type;
     }
 
-    public Rectangle getHitbox() {
+    public Hitbox getHitbox() {
         return hitbox;
     }
 }
