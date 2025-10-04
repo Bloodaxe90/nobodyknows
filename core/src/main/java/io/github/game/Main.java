@@ -25,10 +25,6 @@ public class Main extends ApplicationAdapter {
         viewport = new FitViewport(320, 240); // world size is 320 by 240 pixels
 
         player = new Player(32, 32, 32, 32, 100, new TextureAtlas("atlas/character.atlas"));
-        // TODO Make a thing for sprite animations, am sure the engine has something
-        // TODO create a better way to make an environment, i.e. reading a file and converting it to an array?
-        // Tile size is 16, world size is
-        // 320 / 16 = 20, 240 / 16 = 15
         // environmentBlueprint is 20 by 15 tiles
         int[][] environmentBlueprint = mapReader.readMap("environmentFiles/environment.txt");
 
