@@ -2,7 +2,6 @@ package io.github.game;
 
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.math.Rectangle;
 
 public class Tile {
     public static final int SIZE = 16; // Tile size in pixels

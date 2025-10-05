@@ -9,10 +9,11 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 
 public class Environment {
 
-    private Tile[][] environment;
+    private Tile[][] tiles;
     private int width;
     private int height;
     private final TextureAtlas tilesAtlas;
+    private ArrayList<Tile> collidables = new ArrayList<>();
 
     private float stateTime = 0f;
 
@@ -20,7 +21,7 @@ public class Environment {
     public Environment(int[][] environmentBlueprint, TextureAtlas tilesAtlas) {
         this.width = environmentBlueprint[0].length;
         this.height = environmentBlueprint.length;
-        this.environment = new Tile[height][width];
+        this.tiles = new Tile[height][width];
         this.tilesAtlas = tilesAtlas;
 
         TileType.loadTileAnimations(tilesAtlas);
@@ -38,14 +39,23 @@ public class Environment {
                 // LibGDX renders from the bottom left so flipped the row index
                 int worldX = col * Tile.SIZE;
                 int worldY = (height - 1 - row) * Tile.SIZE;
+                Tile thisTile = new Tile(type, worldX, worldY);
 
-                environment[row][col] = new Tile(type, worldX, worldY);
+                // Add tile to collidables if necessary
+                if (thisTile.getType().isCollidable()) {
+                    collidables.add(thisTile);
+                }
+                tiles[row][col] = thisTile;
             }
         }
     }
 
+    public Tile[] getCollidables() {
+        return collidables.toArray(new Tile[collidables.size()]);
+    }
+
     public void render(SpriteBatch batch) {
-        for (Tile[] row : environment) {
+        for (Tile[] row : tiles) {
             for (Tile tile : row) {
                 tile.render(batch);
             }
@@ -54,7 +64,7 @@ public class Environment {
 
     public void update(float delta_t) {
         stateTime += delta_t;
-        for (Tile[] row : environment) {
+        for (Tile[] row : tiles) {
             for (Tile tile : row) {
                 tile.update(stateTime);
             }

@@ -1,9 +1,14 @@
 package io.github.game;
-import com.badlogic.gdx.graphics.g2d.*;
-import com.badlogic.gdx.math.Rectangle;
-import io.github.game.utils.AnimationLoader;
+import java.util.HashMap;
+import java.util.Map;
 
-import java.util.*;
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+
+import io.github.game.utils.AnimationLoader;
 
 public abstract class Entity {
     protected float xPos, yPos;
@@ -49,12 +54,24 @@ public abstract class Entity {
 
     public abstract void render(SpriteBatch batch);
 
-    public abstract void update(float delta_t);
+    public abstract void update(float delta_t, Environment environment);
 
     public void addAnimation(String name, float duration, Animation.PlayMode playMode) {
         //  NOTE: each image in the atlas for that animation should have a number at the end of
         //  its file name indication its order in the animation (starting from frame 1)
         animationMap.put(name, AnimationLoader.getAnimation(name, duration, spriteAtlas, playMode));
+    }
+
+    // Returns true if hitbox collides with any collidables
+    public boolean isCollision(Environment environment) {
+        Tile[] collidables = environment.getCollidables();
+
+        for (int i = 0; i < collidables.length; i++) {
+            if (hitbox.collides(collidables[i].getHitbox())) {
+                return true;
+            }
+        }
+        return false;
     }
 
     public void dispose() {
