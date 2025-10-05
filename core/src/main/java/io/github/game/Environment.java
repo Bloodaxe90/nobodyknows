@@ -2,6 +2,7 @@ package io.github.game;
 
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Rectangle;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -65,12 +66,12 @@ public class Environment {
     }
 
     public boolean checkCollision(Entity entity) {
-        Rectangle hitbox = entity.hitbox;
-        int startCol = (int)(hitbox.x / Tile.SIZE);
-        int endCol = (int)((hitbox.x + hitbox.width) / Tile.SIZE);
-        //TODO need to figure out this -2 value
-        int startRow = height - (int)(hitbox.y / Tile.SIZE) - 2;
-        int endRow = height - (int)(hitbox.y / Tile.SIZE);
+        Hitbox hitbox = entity.hitbox;
+
+        int startCol = (int)(hitbox.getX() / Tile.SIZE);
+        int endCol = (int)((hitbox.getX() + hitbox.getWidth()) / Tile.SIZE);
+        int startRow = height - (int)((hitbox.getY() + hitbox.getHeight()) / Tile.SIZE) - 1;
+        int endRow = height - (int)(hitbox.getY() / Tile.SIZE);
 
         for (int row = startRow; row <= endRow; row++) {
             for (int col = startCol; col <= endCol; col++) {
@@ -78,7 +79,7 @@ public class Environment {
                 Tile tile = getTile(row, col);
 
                 if (tile != null && tile.getType().isCollidable()) {
-                    if (hitbox.overlaps(tile.getHitbox())) {
+                    if (hitbox.collides(tile.getHitbox())) {
                         return true;
                     }
                 }

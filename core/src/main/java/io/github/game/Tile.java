@@ -9,7 +9,7 @@ public class Tile {
 
     private final TileType type;
     private final int xPos, yPos; // world coordinates
-    private Rectangle hitbox;
+    private Hitbox hitbox;
 
     private TextureRegion sprite;
     public Tile(TileType type, int xPos, int yPos) {
@@ -18,7 +18,7 @@ public class Tile {
         this.yPos = yPos;
 
         if (type.isCollidable()) {
-            this.hitbox = new Rectangle(xPos, yPos, SIZE, SIZE);
+            this.hitbox = new Hitbox(xPos, yPos, SIZE, SIZE);
         }
     }
 
@@ -34,7 +34,7 @@ public class Tile {
         return type;
     }
 
-    public Rectangle getHitbox() {
+    public Hitbox getHitbox() {
         return hitbox;
     }
 }

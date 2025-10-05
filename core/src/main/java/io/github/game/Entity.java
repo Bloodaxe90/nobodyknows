@@ -10,9 +10,9 @@ public abstract class Entity {
     protected int width, height;
 
     protected float speed;
-    protected float vx, vy;
+    protected float vx = 0, vy = 0;
 
-    protected Rectangle hitbox;
+    protected Hitbox hitbox;
     protected boolean collidable;
 
     protected Map<String, Animation<TextureRegion>> animationMap = new HashMap<>();
@@ -23,8 +23,9 @@ public abstract class Entity {
 
     public Entity(float xPos, float yPos,
                   int width, int height,
+                  float hitboxXOffset, float hitboxYOffset,
+                  int hitboxWidth, int hitboxHeight,
                   float speed,
-                  float vx, float vy,
                   boolean collidable,
                   TextureAtlas spriteAtlas) {
         this.xPos = xPos;
@@ -32,19 +33,18 @@ public abstract class Entity {
         this.width = width;
         this.height = height;
         this.speed = speed;
-        this.vx = vx;
-        this.vy = vy;
         this.collidable = collidable;
         this.spriteAtlas = spriteAtlas;
 
+        //Sets hitbox to be default of
         if (this.collidable) {
-            this.hitbox = new Rectangle(xPos, yPos, this.width, this.height * 2);
+            this.hitbox = new Hitbox(xPos, yPos, hitboxWidth, hitboxHeight, hitboxXOffset, hitboxYOffset);
         }
     }
 
     public Entity(float xPos, float yPos, int width, int height, float speed, boolean collidable, TextureAtlas spriteAtlas) {
-        //Entity if you want no initial velocity
-        this(xPos, yPos, width, height, speed, 0, 0, collidable, spriteAtlas);
+        //Entity with Hitbox same size as player
+        this(xPos, yPos, width, height, 0, 0, width, height, speed, collidable, spriteAtlas);
     }
 
     public abstract void render(SpriteBatch batch);

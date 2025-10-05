@@ -11,8 +11,20 @@ public enum TileType {
 
     // each tile has a value based on the order they are created in this enum
     GRASS("grass", false),
-    DIRT("dirt", false),
-    WATER("water", true, 0.15f);
+    WATER("water", true),
+    WATER_ANIMATED("water_animated", true, 0.25f),
+    WATER_corner_NW("water_cornerNW", false),
+    WATER_N("waterN", false),
+    WATER_corner_NE("water_cornerNE", false),
+    WATER_W("waterW", false),
+    WATER_E("waterE", false),
+    WATER_corner_SW("water_cornerSW", false),
+    WATER_S("waterS", false),
+    WATER_corner_SE("water_cornerSE", false),
+    WATER_point_NW("water_pointNW", false),
+    WATER_point_NE("water_pointNE", false),
+    WATER_point_SW("water_pointSW", false),
+    WATER_point_SE("water_pointSE", false);
 
     private final String name;
     private final boolean collidable;

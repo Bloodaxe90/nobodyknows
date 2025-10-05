@@ -8,8 +8,6 @@ import com.badlogic.gdx.utils.Array;
 
 public final class AnimationLoader {
 
-    private AnimationLoader() {}
-
     public static Animation<TextureRegion> getAnimation(String name, float duration, TextureAtlas atlas, Animation.PlayMode playMode) {
         //  NOTE: each image in the atlas for that animation should have a number at the end of
         //  its file name indication its order in the animation (starting from frame 1)
