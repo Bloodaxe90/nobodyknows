@@ -1,30 +1,33 @@
 package io.github.game;
 
 import com.badlogic.gdx.ApplicationAdapter;
-import com.badlogic.gdx.ApplicationListener;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
+import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
+import io.github.game.ui.UserIntereface;
 import io.github.game.utils.EnvironmentReader;
 
-/** {@link ApplicationListener} implementation shared by all platforms. */
 public class Main extends ApplicationAdapter {
     private SpriteBatch spriteBatch;
-    private FitViewport viewport;
+    private FitViewport gameViewport;
 
     private Environment environment;
     private Player player;
     public static final int WORLD_WIDTH = 320, WORLD_HEIGHT = 240;
+    public boolean playing = true;
+
+    private UserIntereface ui;
 
     @Override
     public void create() {
 
         spriteBatch = new SpriteBatch();
-        viewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT);
+        gameViewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT);
 
         int[][] environmentBlueprint = EnvironmentReader.readEnvironment("environment/environment.txt");
 
@@ -32,8 +35,9 @@ public class Main extends ApplicationAdapter {
         player = new Player(
             0, 0,
             16, 16,
-            200, new TextureAtlas("atlas/character.atlas"), environment);
+            200, new TextureAtlas("atlas/character.atlas"));
 
+        ui = new UserIntereface(0.05f, new TextureAtlas("ui/ui.atlas"), gameViewport);
     }
 
     @Override
@@ -44,23 +48,51 @@ public class Main extends ApplicationAdapter {
     }
 
     public void input() {
-        player.setMovingUp(Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W));
-        player.setMovingDown(Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S));
-        player.setMovingLeft(Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A));
-        player.setMovingRight(Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D));
+        if (Gdx.input.isKeyJustPressed(Input.Keys.P) ||
+            Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) ||
+            Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)
+        ) {
+            playing = !playing;
+        }
+
+        if (playing) {
+            if (ui.getDialogueBox().isVisible()) {
+                if (Gdx.input.isKeyJustPressed(Input.Keys.SPACE) || Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+                    if (!ui.getDialogueBox().isFinished()) {
+                        ui.getDialogueBox().skip();
+                    } else {
+                        ui.hideDialogue();
+                    }
+                }
+                return;
+            }
+
+            // TODO Remove later, test of dialogue
+            if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
+                ui.showDialogue("Joe:\n Sigma sigma on the wall who's the fairest of them all?");
+            }
+
+            player.setMovingUp(Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W));
+            player.setMovingDown(Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S));
+            player.setMovingLeft(Gdx.input.isKeyPressed(Input.Keys.LEFT) || Gdx.input.isKeyPressed(Input.Keys.A));
+            player.setMovingRight(Gdx.input.isKeyPressed(Input.Keys.RIGHT) || Gdx.input.isKeyPressed(Input.Keys.D));
+        }
     }
 
     public void logic() {
         float delta_t = Gdx.graphics.getDeltaTime();
         // update your player, enemies, and check for collisions
-        player.update(delta_t);
-        environment.update(delta_t);
+        if (playing) {
+            player.update(delta_t, environment);
+            environment.update(delta_t);
+        }
+        ui.update(delta_t, playing);
     }
 
     public void draw() {
         ScreenUtils.clear(Color.BLACK);
-        viewport.apply();
-        spriteBatch.setProjectionMatrix(viewport.getCamera().combined);
+        gameViewport.apply();
+        spriteBatch.setProjectionMatrix(gameViewport.getCamera().combined);
 
         spriteBatch.begin();
 
@@ -69,11 +101,12 @@ public class Main extends ApplicationAdapter {
         player.render(spriteBatch);
 
         spriteBatch.end();
+        ui.render();
     }
 
     @Override
     public void resize(int width, int height) {
-        viewport.update(width, height, true);
+        gameViewport.update(width, height, true);
     }
 
     @Override
@@ -81,10 +114,6 @@ public class Main extends ApplicationAdapter {
         spriteBatch.dispose();
         environment.dispose();
         player.dispose();
+        ui.dispose();
     }
-    @Override
-    public void pause() {}
-
-    @Override
-    public void resume() {}
 }

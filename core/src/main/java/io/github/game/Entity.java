@@ -49,8 +49,6 @@ public abstract class Entity {
 
     public abstract void render(SpriteBatch batch);
 
-    public abstract void update(float delta_t);
-
     public void addAnimation(String name, float duration, Animation.PlayMode playMode) {
         //  NOTE: each image in the atlas for that animation should have a number at the end of
         //  its file name indication its order in the animation (starting from frame 1)
