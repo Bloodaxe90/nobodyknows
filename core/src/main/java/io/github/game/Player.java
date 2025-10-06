@@ -4,7 +4,6 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
-import com.badlogic.gdx.utils.Array;
 
 public class Player extends Entity {
 
@@ -21,6 +20,9 @@ public class Player extends Entity {
         // Sets up the sprite movement map
         for (String name : new String[]{"front", "back", "left", "right"}) {
             addAnimation(name, 0.1f, Animation.PlayMode.LOOP);
+        }
+        for (String name : new String[]{"idlefront", "idleback", "idleleft", "idleright"}) {
+            addAnimation(name, 1f, Animation.PlayMode.LOOP);
         }
 
         setSprite("front", stateTime);
@@ -48,6 +50,7 @@ public class Player extends Entity {
         if (movingUp) vy = speed;
         if (movingDown) vy = -speed;
 
+        // Moves hitbox
         xPos += vx * delta_t;
         hitbox.setXPos(xPos);
 
@@ -55,10 +58,11 @@ public class Player extends Entity {
             vx = 0;
             xPos = MathUtils.clamp(xPos, 0, Main.WORLD_WIDTH - width);
         } else {
-            hitbox.setXPos(xPos);
             if (environment.checkCollision(this)) {
                 xPos -= vx * delta_t;
+                updateSprite(true);
                 vx = 0;
+                hitbox.setXPos(xPos);
             }
         }
 
@@ -69,27 +73,29 @@ public class Player extends Entity {
             vy = 0;
             yPos = MathUtils.clamp(yPos, 0, Main.WORLD_HEIGHT - height);
         } else {
-            hitbox.setYPos(yPos);
             if (environment.checkCollision(this)) {
                 yPos -= vy * delta_t;
+                updateSprite(true);
                 vy = 0;
+                hitbox.setYPos(yPos);
             }
         }
 
+        updateSprite(false);
         stateTime += delta_t;
 
-        updateSprite();
     }
 
-    private void updateSprite() {
+    private void updateSprite(boolean isIdle) {
+        String prefix = isIdle ? "idle" : "";
         if (vx > 0) {
-            setSprite("right", stateTime);
+            setSprite(prefix + "right", stateTime);
         } else if (vx < 0) {
-            setSprite("left", stateTime);
+            setSprite(prefix + "left", stateTime);
         } else if (vy > 0) {
-            setSprite("back", stateTime);
+            setSprite(prefix + "back", stateTime);
         } else if (vy < 0) {
-            setSprite("front", stateTime);
+            setSprite(prefix + "front", stateTime);
         }
     }
 

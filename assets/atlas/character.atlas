@@ -33,3 +33,11 @@ right3
 bounds:42,2,18,18
 right4
 bounds:22,42,18,18
+idleleft1
+bounds:22,22,18,18
+idleright1
+bounds:42,42,18,18
+idlefront1
+bounds:22,2,18,18
+idleback1
+bounds:82,22,18,18
