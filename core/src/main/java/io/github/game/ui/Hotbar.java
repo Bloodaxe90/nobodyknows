@@ -27,6 +27,8 @@ public class Hotbar extends Table {
 
         TextureRegion hotbar = new TextureRegion(uiAtlas.findRegion("hotbar"));
         this.setBackground(new TextureRegionDrawable(hotbar));
+
+        // TODO positioning code a bit janky needs to be sorted more universal
         int scaleFactor = 2;
         int width = (int)(hotbar.getRegionWidth() / scaleFactor);
         int height = (int)(hotbar.getRegionHeight() / scaleFactor);
