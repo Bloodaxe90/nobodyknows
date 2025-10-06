@@ -15,7 +15,10 @@ public class UserIntereface {
     private Skin skin;
 
     private DialogueBox dialogueBox;
+    private Hotbar hotbar;
     private PauseMenu pauseMenu;
+    private StatusBar statusBar;
+
 
     private TextureAtlas uiAtlas;
 
@@ -25,42 +28,49 @@ public class UserIntereface {
         this.uiAtlas = uiAtlas;
         this.skin = new Skin(Gdx.files.internal("uiskin.json"));
 
-        this.dialogueBox = new DialogueBox(dialogLetterTime, stage, this.skin, uiAtlas);
+        this.dialogueBox = new DialogueBox(dialogLetterTime, this.skin, uiAtlas);
         this.dialogueBox.setVisible(false);
         this.stage.addActor(this.dialogueBox);
 
-        pauseMenu = new PauseMenu(skin);
-        pauseMenu.setFillParent(true);
-        pauseMenu.setVisible(false);
-        stage.addActor(pauseMenu);
+        this.pauseMenu = new PauseMenu(skin);
+        this.pauseMenu.setFillParent(true);
+        this.pauseMenu.setVisible(false);
+        this.stage.addActor(pauseMenu);
+
+        this.hotbar = new Hotbar(uiAtlas);
+        this.stage.addActor(this.hotbar);
+
+        this.statusBar = new StatusBar(skin);
+        this.statusBar.setFillParent(true);
+        this.stage.addActor(statusBar);
 
         InputMultiplexer multiplexer = new InputMultiplexer();
         multiplexer.addProcessor(this.stage);
         Gdx.input.setInputProcessor(multiplexer);
     }
 
-    public void update(float delta, boolean playing) {
-        stage.act(delta);
+    public void update(float delta, boolean playing, Player player) {
+        if (playing) {
+            stage.act(delta);
+            hotbar.updateInventory(player.getInventory());
+            statusBar.update(delta);
+        }
         pauseMenu.setVisible(!playing);
+
     }
 
     public void render() {
         stage.draw();
     }
 
-    public void showDialogue(String message) {
-        dialogueBox.startDialogue(message);
-        dialogueBox.setVisible(true);
-    }
-
-    public void hideDialogue() {
-        dialogueBox.setVisible(false);
-    }
-
     public void dispose() {
         stage.dispose();
         skin.dispose();
         uiAtlas.dispose();
+    }
+
+    public StatusBar getStatusBar() {
+        return statusBar;
     }
 
     public Stage getStage() {

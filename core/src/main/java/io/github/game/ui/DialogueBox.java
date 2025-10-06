@@ -6,10 +6,11 @@ import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.*;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+import io.github.game.Main;
 
 public class DialogueBox extends Table {
 
-    private Label textLabel;
+    private Label dialogueBox;
     private String text;
     private int visibleTextLength = 0;
     private float letterTime;
@@ -17,18 +18,18 @@ public class DialogueBox extends Table {
 
     private boolean isFinished = false;
 
-    public DialogueBox(float letterTime, Stage stage, Skin skin, TextureAtlas uiAtlas) {
+    public DialogueBox(float letterTime, Skin skin, TextureAtlas uiAtlas) {
         super();
 
         TextureRegion dialogBox = uiAtlas.findRegion("dialog");
         this.setBackground(new TextureRegionDrawable(dialogBox));
-        this.setBounds(0, 0, stage.getWidth(), stage.getHeight() / 3);
+        this.setBounds(0, 0, Main.WORLD_WIDTH, Main.WORLD_HEIGHT / 3f);
 
         this.letterTime = letterTime;
-        textLabel = new Label("", skin);
-        textLabel.setWrap(true);
-        textLabel.setAlignment(Align.topLeft);
-        this.add(textLabel).expand().fill().pad(15);
+        dialogueBox = new Label("", skin);
+        dialogueBox.setWrap(true);
+        dialogueBox.setAlignment(Align.topLeft);
+        this.add(dialogueBox).expand().fill().pad(15);
     }
 
     public void startDialogue(String text) {
@@ -36,13 +37,13 @@ public class DialogueBox extends Table {
         this.visibleTextLength = 0;
         this.textTimer = 0f;
         this.isFinished = false;
-        this.textLabel.setText("");
+        this.dialogueBox.setText("");
     }
 
     public void skip() {
         if (!isFinished) {
             visibleTextLength = text.length();
-            textLabel.setText(text);
+            dialogueBox.setText(text);
             isFinished = true;
         }
     }
@@ -62,11 +63,20 @@ public class DialogueBox extends Table {
             textTimer -= letterTime;
         }
 
-        textLabel.setText(text.substring(0, visibleTextLength));
+        dialogueBox.setText(text.substring(0, visibleTextLength));
 
         if (visibleTextLength >= text.length()) {
             isFinished = true;
         }
+    }
+
+    public void showDialogue(String message) {
+        startDialogue(message);
+        setVisible(true);
+    }
+
+    public void hideDialogue() {
+        setVisible(false);
     }
 
     public boolean isFinished() {

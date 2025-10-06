@@ -1,7 +1,9 @@
 ui.png
-size:1024,1024
+size:1024,512
 repeat:none
-Minecraft-HotbAr
-bounds:2,84,800,512
 dialog
-bounds:2,2,320,80
+bounds:0,0,320,80
+hotbar
+bounds:610,387,203,39
+keycard
+bounds:0,82,608,344

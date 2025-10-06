@@ -61,15 +61,21 @@ public class Main extends ApplicationAdapter {
                     if (!ui.getDialogueBox().isFinished()) {
                         ui.getDialogueBox().skip();
                     } else {
-                        ui.hideDialogue();
+                        ui.getDialogueBox().hideDialogue();
                     }
                 }
                 return;
             }
 
-            // TODO Remove later, test of dialogue
-            if (Gdx.input.isKeyJustPressed(Input.Keys.D)) {
-                ui.showDialogue("Joe:\n Sigma sigma on the wall who's the fairest of them all?");
+            // TODO Remove later, testing stuff
+            if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
+                ui.getDialogueBox().showDialogue("Joe:\n Sigma sigma on the wall who's the fairest of them all?");
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.R)) {
+                player.addItem("keycard");
+            }
+            if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
+                ui.getStatusBar().incrementEventCounter();
             }
 
             player.setMovingUp(Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W));
@@ -81,12 +87,14 @@ public class Main extends ApplicationAdapter {
 
     public void logic() {
         float delta_t = Gdx.graphics.getDeltaTime();
+
+        if (ui.getStatusBar().isTimeUp()) playing = false;
         // update your player, enemies, and check for collisions
         if (playing) {
             player.update(delta_t, environment);
             environment.update(delta_t);
         }
-        ui.update(delta_t, playing);
+        ui.update(delta_t, playing, player);
     }
 
     public void draw() {

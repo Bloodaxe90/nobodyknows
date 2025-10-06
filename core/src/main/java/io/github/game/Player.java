@@ -4,11 +4,15 @@ import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.utils.Array;
+import io.github.game.ui.Item;
+import io.github.game.ui.Hotbar;
+
 
 public class Player extends Entity {
 
     private boolean movingUp, movingDown, movingLeft, movingRight;
-
+    private Array<Item> inventory;
 
     public Player(float xPos, float yPos,
                   int width, int height,
@@ -17,6 +21,8 @@ public class Player extends Entity {
                   float speed,
                   TextureAtlas spriteAtlas) {
         super(xPos, yPos, width, height, hitboxXOffset, hitboxYOffset, hitboxWidth, hitboxHeight, speed, true, spriteAtlas);
+
+        this.inventory = new Array<>(Hotbar.NUM_SLOTS);
         // Sets up the sprite movement map
         for (String name : new String[]{"front", "back", "left", "right"}) {
             addAnimation(name, 0.1f, Animation.PlayMode.LOOP);
@@ -57,13 +63,11 @@ public class Player extends Entity {
         if (xPos < 0 || xPos + width > Main.WORLD_WIDTH) {
             vx = 0;
             xPos = MathUtils.clamp(xPos, 0, Main.WORLD_WIDTH - width);
-        } else {
-            if (environment.checkCollision(this)) {
-                xPos -= vx * delta_t;
-                updateSprite(true);
-                vx = 0;
-                hitbox.setXPos(xPos);
-            }
+        } else if (environment.checkCollision(this)) {
+            xPos -= vx * delta_t;
+            updateSprite(true);
+            vx = 0;
+            hitbox.setXPos(xPos);
         }
 
         yPos += vy * delta_t;
@@ -72,13 +76,11 @@ public class Player extends Entity {
         if (yPos < 0 || yPos + height > Main.WORLD_HEIGHT) {
             vy = 0;
             yPos = MathUtils.clamp(yPos, 0, Main.WORLD_HEIGHT - height);
-        } else {
-            if (environment.checkCollision(this)) {
-                yPos -= vy * delta_t;
-                updateSprite(true);
-                vy = 0;
-                hitbox.setYPos(yPos);
-            }
+        } else if (environment.checkCollision(this)) {
+            yPos -= vy * delta_t;
+            updateSprite(true);
+            vy = 0;
+            hitbox.setYPos(yPos);
         }
 
         updateSprite(false);
@@ -99,6 +101,21 @@ public class Player extends Entity {
         }
     }
 
+    public void addItem(String itemName) {
+        if (inventory.size < Hotbar.NUM_SLOTS) {
+            inventory.add(new Item(itemName));
+        }
+    }
+
+    public boolean hasItem(String itemName) {
+        for (Item item : inventory) {
+            if (item.getName().equals(itemName)) {
+                return true;
+            }
+        }
+        return false;
+    }
+
     public void setMovingUp(boolean movingUp) {
         this.movingUp = movingUp;
     }
@@ -113,5 +130,9 @@ public class Player extends Entity {
 
     public void setMovingRight(boolean movingRight) {
         this.movingRight = movingRight;
+    }
+
+    public Array<Item> getInventory() {
+        return inventory;
     }
 }
