@@ -15,7 +15,6 @@ public class Hotbar extends Table {
 
     public static final int NUM_SLOTS = 5;
 
-
     private Array<Image> itemIcons;
 
     private TextureAtlas itemAtlas;

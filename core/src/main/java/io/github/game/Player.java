@@ -56,7 +56,6 @@ public class Player extends Entity {
         if (movingUp) vy = speed;
         if (movingDown) vy = -speed;
 
-        // Moves hitbox
         xPos += vx * delta_t;
         hitbox.setXPos(xPos);
 

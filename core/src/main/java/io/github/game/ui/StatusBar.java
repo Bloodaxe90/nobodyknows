@@ -20,7 +20,6 @@ public class StatusBar extends Table {
 
         this.top().right();
         status = new Label("", skin);
-
         updateStatusText();
 
         this.add(status).align(Align.right);

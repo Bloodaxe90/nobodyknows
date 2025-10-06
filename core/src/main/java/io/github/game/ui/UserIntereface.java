@@ -56,7 +56,6 @@ public class UserIntereface {
             statusBar.update(delta);
         }
         pauseMenu.setVisible(!playing);
-
     }
 
     public void render() {

@@ -13,7 +13,6 @@ public class PauseMenu extends Table {
         super(skin);
 
         pauseText = new Label("PAUSED", skin);
-
         this.add(pauseText).expandX().center();
     }
 }

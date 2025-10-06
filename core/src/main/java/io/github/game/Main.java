@@ -67,6 +67,7 @@ public class Main extends ApplicationAdapter {
                 return;
             }
 
+
             // TODO Remove later, testing stuff
             if (Gdx.input.isKeyJustPressed(Input.Keys.E)) {
                 ui.getDialogueBox().showDialogue("Joe:\n Sigma sigma on the wall who's the fairest of them all?");
@@ -77,6 +78,7 @@ public class Main extends ApplicationAdapter {
             if (Gdx.input.isKeyJustPressed(Input.Keys.T)) {
                 ui.getStatusBar().incrementEventCounter();
             }
+
 
             player.setMovingUp(Gdx.input.isKeyPressed(Input.Keys.UP) || Gdx.input.isKeyPressed(Input.Keys.W));
             player.setMovingDown(Gdx.input.isKeyPressed(Input.Keys.DOWN) || Gdx.input.isKeyPressed(Input.Keys.S));
