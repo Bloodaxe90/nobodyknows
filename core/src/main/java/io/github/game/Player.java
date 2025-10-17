@@ -5,14 +5,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import io.github.game.ui.Item;
+
 import io.github.game.ui.Hotbar;
+import io.github.game.ui.Item;
 
 
 public class Player extends Entity {
 
     private boolean movingUp, movingDown, movingLeft, movingRight;
     private Array<Item> inventory;
+    private TorchEffect torchEffect;
 
     public Player(float xPos, float yPos,
                   int width, int height,
@@ -45,6 +47,7 @@ public class Player extends Entity {
     public void render(SpriteBatch batch) {
 
         batch.draw(sprite, xPos, yPos, width, height);
+
     }
 
     public void update(float delta_t, Environment environment) {
