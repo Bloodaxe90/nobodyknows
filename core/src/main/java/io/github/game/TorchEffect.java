@@ -1,41 +1,30 @@
 package io.github.game;
-import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
-import com.badlogic.gdx.math.Vector2;
 
-public class TorchEffect extends ApplicationAdapter {
+public class TorchEffect {
 
-    private float time;
-    private SpriteBatch batch;
-    private String vertexShader;
-    private String fragmentShader;
-    private ShaderProgram shaderProgram;
+    private ShaderProgram shader;
 
-    public void create(SpriteBatch batch) {
-        this.batch = batch;
-        vertexShader = Gdx.files.internal("shaders/vertex.glsl").readString();
-        fragmentShader = Gdx.files.internal("shaders/vignette.glsl").readString();
-        shaderProgram = new ShaderProgram(vertexShader, fragmentShader);
-        shaderProgram.pedantic = false;
-
-        batch.setShader(shaderProgram);
-
-        time = 0;
+    public TorchEffect() {
+        String vertexShader = Gdx.files.internal("shaders/vertex.glsl").readString();
+        String fragmentShader = Gdx.files.internal("shaders/vignette.glsl").readString();
+        shader = new ShaderProgram(vertexShader, fragmentShader);
     }
 
-    public void render(float xPos, float yPos) {
-
-        Vector2 v = new Vector2(xPos, yPos);
+    public void render(float xPos, float yPos, SpriteBatch batch) {
+        float shaderX = xPos / Main.WORLD_WIDTH;
+        float shaderY = yPos / Main.WORLD_HEIGHT;
+        shader.bind();
+        shader.setUniformf("u_resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        shader.setUniformf("u_lightPos", shaderX, shaderY);
+        batch.setShader(shader);
         
-        shaderProgram.setUniformf("u_resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-
     }
-
-    @Override
+    
     public void dispose() {
-        shaderProgram.dispose();
+        shader.dispose();
     }
 
 }

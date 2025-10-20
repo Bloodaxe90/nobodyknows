@@ -6,6 +6,7 @@ import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -31,8 +32,8 @@ public class Main extends ApplicationAdapter {
         
         gameViewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT);
 
+        ShaderProgram.pedantic = false;
         torchEffect = new TorchEffect();
-        torchEffect.create(spriteBatch);
 
         int[][] environmentBlueprint = EnvironmentReader.readEnvironment("environment/environment.txt");
 
@@ -50,7 +51,6 @@ public class Main extends ApplicationAdapter {
         input();
         logic();
         draw();
-        torchEffect.render(player.xPos, player.yPos);
     }
 
     public void input() {
@@ -115,10 +115,17 @@ public class Main extends ApplicationAdapter {
         // Draw in here
         environment.render(spriteBatch);
         player.render(spriteBatch);
+        handleShader(spriteBatch);
 
         spriteBatch.end();
         ui.render();
     }
+
+    public void handleShader(SpriteBatch batch) {
+        torchEffect.render(player.xPos, player.yPos, batch);
+    }
+
+
 
     @Override
     public void resize(int width, int height) {
