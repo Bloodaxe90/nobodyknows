@@ -22,6 +22,10 @@ public class Torch {
 
     }
 
+    public ShaderProgram getShader() {
+        return shader;
+    }
+
     public void dispose() {
         shader.dispose();
     }

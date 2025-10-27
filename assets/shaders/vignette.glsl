@@ -3,7 +3,7 @@ precision mediump float;
 #endif
 
 uniform vec2 u_resolution;
-uniform vec2 u_lightPos;    // 👈 new: torch center
+uniform vec2 u_lightPos;
 uniform sampler2D u_texture;
 
 varying vec4 v_color;
@@ -27,7 +27,7 @@ void main() {
 
     // Darken the image according to the sahder
     color.rgb = mix(color.rgb, color.rgb * vignette, intensity);
-    
+
 
     gl_FragColor = color;
 }

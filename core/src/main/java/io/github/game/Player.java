@@ -140,6 +140,10 @@ public class Player extends Entity {
         return inventory;
     }
 
+    public Torch getTorch() {
+        return torch;
+    }
+
     public void dispose() {
         super.dispose();
         torch.dispose();
