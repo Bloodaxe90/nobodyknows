@@ -3,11 +3,12 @@ import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
-public class TorchEffect {
+public class Torch {
 
     private final ShaderProgram shader;
 
-    public TorchEffect() {
+    public Torch() {
+        ShaderProgram.pedantic = false;
         String vertexShader = Gdx.files.internal("shaders/vertex.glsl").readString();
         String fragmentShader = Gdx.files.internal("shaders/vignette.glsl").readString();
         shader = new ShaderProgram(vertexShader, fragmentShader);
