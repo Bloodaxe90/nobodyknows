@@ -16,7 +16,6 @@ import io.github.game.utils.EnvironmentReader;
 public class Main extends ApplicationAdapter {
     private SpriteBatch spriteBatch;
     private FitViewport gameViewport;
-    private TorchEffect torchEffect;
 
     private Environment environment;
     private Player player;
@@ -29,11 +28,10 @@ public class Main extends ApplicationAdapter {
     public void create() {
 
         spriteBatch = new SpriteBatch();
-        
+
         gameViewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT);
 
         ShaderProgram.pedantic = false;
-        torchEffect = new TorchEffect();
 
         int[][] environmentBlueprint = EnvironmentReader.readEnvironment("environment/environment.txt");
 
@@ -115,16 +113,9 @@ public class Main extends ApplicationAdapter {
         // Draw in here
         environment.render(spriteBatch);
         player.render(spriteBatch);
-        handleShader(spriteBatch);
-
         spriteBatch.end();
         ui.render();
     }
-
-    public void handleShader(SpriteBatch batch) {
-        torchEffect.render(player.xPos, player.yPos, batch);
-    }
-
 
 
     @Override

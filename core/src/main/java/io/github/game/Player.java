@@ -14,7 +14,7 @@ public class Player extends Entity {
 
     private boolean movingUp, movingDown, movingLeft, movingRight;
     private Array<Item> inventory;
-    private TorchEffect torchEffect;
+    private TorchEffect torch;
 
     public Player(float xPos, float yPos,
                   int width, int height,
@@ -33,6 +33,8 @@ public class Player extends Entity {
             addAnimation(name, 1f, Animation.PlayMode.LOOP);
         }
 
+        this.torch = new TorchEffect();
+
         setSprite("front", stateTime);
     }
 
@@ -45,9 +47,8 @@ public class Player extends Entity {
 
     @Override
     public void render(SpriteBatch batch) {
-
         batch.draw(sprite, xPos, yPos, width, height);
-
+        torch.render(xPos + (width / 2f), yPos + (height / 2f), batch);
     }
 
     public void update(float delta_t, Environment environment) {
@@ -74,6 +75,7 @@ public class Player extends Entity {
 
         yPos += vy * delta_t;
         hitbox.setYPos(yPos);
+
 
         if (yPos < 0 || yPos + height > Main.WORLD_HEIGHT) {
             vy = 0;

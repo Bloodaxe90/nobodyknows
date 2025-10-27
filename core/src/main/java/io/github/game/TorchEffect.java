@@ -5,7 +5,7 @@ import com.badlogic.gdx.graphics.glutils.ShaderProgram;
 
 public class TorchEffect {
 
-    private ShaderProgram shader;
+    private final ShaderProgram shader;
 
     public TorchEffect() {
         String vertexShader = Gdx.files.internal("shaders/vertex.glsl").readString();
@@ -14,15 +14,13 @@ public class TorchEffect {
     }
 
     public void render(float xPos, float yPos, SpriteBatch batch) {
-        float shaderX = xPos / Main.WORLD_WIDTH;
-        float shaderY = yPos / Main.WORLD_HEIGHT;
         shader.bind();
         shader.setUniformf("u_resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        shader.setUniformf("u_lightPos", shaderX, shaderY);
+        shader.setUniformf("u_lightPos", xPos / Main.WORLD_WIDTH, yPos / Main.WORLD_HEIGHT);
         batch.setShader(shader);
-        
+
     }
-    
+
     public void dispose() {
         shader.dispose();
     }
