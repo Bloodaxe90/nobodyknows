@@ -33,7 +33,7 @@ public class Main extends ApplicationAdapter {
         gameCamera = new OrthographicCamera();
         gameViewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, gameCamera);
 
-        environment = new Environment("environment/environment.tmx");
+        environment = new Environment("environment/environment.tmx", spriteBatch);
 
         player = new Player(
             0, 0,

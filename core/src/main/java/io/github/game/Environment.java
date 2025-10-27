@@ -1,11 +1,12 @@
 package io.github.game;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.maps.MapObject;
+import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
-import com.badlogic.gdx.maps.MapObject;
-import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
 
@@ -14,9 +15,9 @@ public class Environment {
     private TiledMap tiles;
     private OrthogonalTiledMapRenderer environmentRenderer;
 
-    public Environment(String mapFileName) {
+    public Environment(String mapFileName, SpriteBatch batch) {
         tiles = new TmxMapLoader().load(mapFileName);
-        environmentRenderer = new OrthogonalTiledMapRenderer(tiles, 1f);
+        environmentRenderer = new OrthogonalTiledMapRenderer(tiles, 1f, batch);
     }
 
     public void render(OrthographicCamera camera) {
