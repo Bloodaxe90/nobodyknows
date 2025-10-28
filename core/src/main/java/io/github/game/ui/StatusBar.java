@@ -11,7 +11,7 @@ public class StatusBar extends Table {
 
     private int eventsCompleted = 0;
 
-    public static final int MAX_EVENTS = 5;
+    public static final int MAX_EVENTS = 6;
 
     private float timeRemaining = 300f;
 

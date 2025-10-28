@@ -69,10 +69,25 @@ public class Enemy extends Entity {
         hitbox.setXPos(xPos);
         hitbox.setYPos(yPos);
         stateTime += delta_t;
+        //TODO make it so sprites represent the enemies movement properly like the players
+        updateSprite(true);
 
         if (interact && interaction != null) {
             interaction.interact(this, player, ui);
             interact = false;
+        }
+    }
+
+    private void updateSprite(boolean isIdle) {
+        String prefix = name + (isIdle ? "_idle" : "_");
+        if (vx > 0) {
+            setSprite(prefix + "right", stateTime);
+        } else if (vx < 0) {
+            setSprite(prefix + "left", stateTime);
+        } else if (vy > 0) {
+            setSprite(prefix + "back", stateTime);
+        } else if (vy < 0) {
+            setSprite(prefix + "front", stateTime);
         }
     }
 
