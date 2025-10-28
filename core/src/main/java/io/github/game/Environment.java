@@ -1,23 +1,25 @@
 package io.github.game;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
-import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
-import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
+import io.github.game.utils.Hitbox;
+
 
 public class Environment {
 
-    private TiledMap tiles;
-    private OrthogonalTiledMapRenderer environmentRenderer;
+    private final TiledMap environmentMap;
+    private final OrthogonalTiledMapRenderer environmentRenderer;
 
-    public Environment(String mapFileName, SpriteBatch batch) {
-        tiles = new TmxMapLoader().load(mapFileName);
-        environmentRenderer = new OrthogonalTiledMapRenderer(tiles, 1f, batch);
+
+    public Environment(TiledMap environmentMap) {
+        this.environmentMap = environmentMap;
+        this.environmentRenderer = new OrthogonalTiledMapRenderer(environmentMap, 1f);
+
     }
 
     public void render(OrthographicCamera camera) {
@@ -26,12 +28,12 @@ public class Environment {
     }
 
     public void dispose() {
-        tiles.dispose();
+        environmentMap.dispose();
         environmentRenderer.dispose();
     }
 
     public boolean checkCollision(Hitbox hitbox) {
-        for (MapObject object : tiles.getLayers().get("Collision").getObjects()) {
+        for (MapObject object : environmentMap.getLayers().get("Collision").getObjects()) {
             if (object instanceof RectangleMapObject) {
                 Rectangle mapRect = ((RectangleMapObject) object).getRectangle();
                 if (Intersector.overlaps(hitbox.getBounds(), mapRect)) {
@@ -41,4 +43,9 @@ public class Environment {
         }
         return false;
     }
+
+    public int getTileSize() {
+        return environmentMap.getProperties().get("tilewidth", Integer.class);
+    }
+
 }

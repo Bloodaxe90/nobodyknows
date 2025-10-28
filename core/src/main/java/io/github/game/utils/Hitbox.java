@@ -1,4 +1,4 @@
-package io.github.game;
+package io.github.game.utils;
 
 import com.badlogic.gdx.math.Rectangle;
 

@@ -1,4 +1,4 @@
-package io.github.game.utils;
+package io.github.game.utils.io;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;

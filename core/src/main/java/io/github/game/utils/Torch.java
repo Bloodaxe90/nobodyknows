@@ -1,7 +1,8 @@
-package io.github.game;
+package io.github.game.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+import io.github.game.Main;
 
 public class Torch {
 
