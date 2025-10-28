@@ -5,22 +5,19 @@ import com.badlogic.gdx.InputMultiplexer;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
-import com.badlogic.gdx.utils.viewport.ScreenViewport;
 import com.badlogic.gdx.utils.viewport.Viewport;
-import io.github.game.Player;
+import io.github.game.Main;
+import io.github.game.entities.player.Player;
 
 public class UserIntereface {
 
-    private Stage stage;
-    private Skin skin;
-
-    private DialogueBox dialogueBox;
-    private Hotbar hotbar;
-    private PauseMenu pauseMenu;
-    private StatusBar statusBar;
-
-
-    private TextureAtlas uiAtlas;
+    private final Stage stage;
+    private final Skin skin;
+    private final DialogueBox dialogueBox;
+    private final Hotbar hotbar;
+    private final PauseMenu pauseMenu;
+    private final StatusBar statusBar;
+    private final TextureAtlas uiAtlas;
 
     public UserIntereface(float dialogLetterTime, TextureAtlas uiAtlas, Viewport uiViewport) {
         this.stage = new Stage(uiViewport);
@@ -55,7 +52,17 @@ public class UserIntereface {
             hotbar.updateInventory(player.getInventory());
             statusBar.update(delta);
         }
+        if (statusBar.isTimeUp()) {
+            setupGameOverScreen("Loss\nYou timed out");
+        }
         pauseMenu.setVisible(!playing);
+    }
+
+    public void setupGameOverScreen(String text) {
+        // Game over text must start with Game over
+        statusBar.update(0);
+        pauseMenu.setText("Game Over: " + text + "\n\n" + statusBar.getStatusText());
+        statusBar.setVisible(false);
     }
 
     public void render() {

@@ -1,4 +1,4 @@
-package io.github.game;
+package io.github.game.entities.player;
 
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
@@ -6,6 +6,12 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
 
+import io.github.game.Environment;
+import io.github.game.Main;
+import io.github.game.entities.Entity;
+import io.github.game.entities.building.BuildingManager;
+import io.github.game.entities.enemy.EnemyManager;
+import io.github.game.utils.Torch;
 import io.github.game.ui.Hotbar;
 import io.github.game.ui.Item;
 
@@ -15,43 +21,53 @@ public class Player extends Entity {
     private boolean movingUp, movingDown, movingLeft, movingRight;
     private final Array<Item> inventory;
     private final Torch torch;
+    private final TextureAtlas spriteAtlas;
 
-    public Player(float xPos, float yPos,
+    public Player(String name,
+                  float xPos, float yPos,
                   int width, int height,
                   float hitboxXOffset, float hitboxYOffset,
                   int hitboxWidth, int hitboxHeight,
                   float speed,
                   TextureAtlas spriteAtlas) {
-        super(xPos, yPos, width, height, hitboxXOffset, hitboxYOffset, hitboxWidth, hitboxHeight, speed, true, spriteAtlas);
+        super(name, xPos, yPos, width, height, hitboxXOffset, hitboxYOffset, hitboxWidth, hitboxHeight, speed, true);
 
+        this.spriteAtlas = spriteAtlas;
         this.inventory = new Array<>(Hotbar.NUM_SLOTS);
         // Sets up the sprite movement map
-        for (String name : new String[]{"front", "back", "left", "right"}) {
-            addAnimation(name, 0.1f, Animation.PlayMode.LOOP);
+        for (String str : new String[]{"front", "back", "left", "right"}) {
+            addAnimation(str, 0.1f, Animation.PlayMode.LOOP, spriteAtlas);
         }
-        for (String name : new String[]{"idlefront", "idleback", "idleleft", "idleright"}) {
-            addAnimation(name, 1f, Animation.PlayMode.LOOP);
+        for (String str : new String[]{"idlefront", "idleback", "idleleft", "idleright"}) {
+            addAnimation(str, 1f, Animation.PlayMode.LOOP, spriteAtlas);
         }
 
         this.torch = new Torch();
-
+        addItem("keycard");
         setSprite("front", stateTime);
     }
 
-    public Player(float xPos, float yPos,
+    public Player(String name,
+                  float xPos, float yPos,
                   int width, int height,
                   float speed,
                   TextureAtlas spriteAtlas) {
-        this(xPos, yPos, width, height, 0f, 0f, width, height, speed, spriteAtlas);
+        this(name, xPos, yPos, width, height, 0f, 0f, width, height, speed, spriteAtlas);
     }
 
     @Override
     public void render(SpriteBatch batch) {
-        batch.draw(sprite, xPos, yPos, width, height);
-        torch.render(xPos + (width / 2f), yPos + (height / 2f), batch);
+        super.render(batch);
+        if (active) {
+            torch.render(xPos + (width / 2f), yPos + (height / 2f), batch);
+        }
     }
 
-    public void update(float delta_t, Environment environment) {
+    public void update(float delta_t, Environment environment, BuildingManager buildingManager, EnemyManager enemyManager) {
+        if (!active) {
+            return;
+        }
+
         vx = 0;
         vy = 0;
 
@@ -66,7 +82,7 @@ public class Player extends Entity {
         if (xPos < 0 || xPos + width > Main.WORLD_WIDTH) {
             vx = 0;
             xPos = MathUtils.clamp(xPos, 0, Main.WORLD_WIDTH - width);
-        } else if (environment.checkCollision(hitbox)) {
+        } else if (environment.checkCollision(hitbox) || buildingManager.checkCollision(hitbox) || enemyManager.checkCollision(hitbox)) {
             xPos -= vx * delta_t;
             updateSprite(true);
             vx = 0;
@@ -80,7 +96,7 @@ public class Player extends Entity {
         if (yPos < 0 || yPos + height > Main.WORLD_HEIGHT) {
             vy = 0;
             yPos = MathUtils.clamp(yPos, 0, Main.WORLD_HEIGHT - height);
-        } else if (environment.checkCollision(hitbox)) {
+        } else if (environment.checkCollision(hitbox) || buildingManager.checkCollision(hitbox) || enemyManager.checkCollision(hitbox)) {
             yPos -= vy * delta_t;
             updateSprite(true);
             vy = 0;
@@ -120,6 +136,12 @@ public class Player extends Entity {
         return false;
     }
 
+    public void removeItem(String itemName) {
+        for (Item item : inventory) {
+            inventory.removeValue(item, false);
+        }
+    }
+
     public void setMovingUp(boolean movingUp) {
         this.movingUp = movingUp;
     }
@@ -144,8 +166,16 @@ public class Player extends Entity {
         return torch;
     }
 
+    public void stopMoving() {
+        movingLeft = false;
+        movingRight = false;
+        movingUp = false;
+        movingDown = false;
+    }
+
+
     public void dispose() {
-        super.dispose();
+        spriteAtlas.dispose();
         torch.dispose();
     }
 }

@@ -11,7 +11,7 @@ public class StatusBar extends Table {
 
     private int eventsCompleted = 0;
 
-    private static final int MAX_EVENTS = 5;
+    public static final int MAX_EVENTS = 5;
 
     private float timeRemaining = 300f;
 
@@ -27,7 +27,7 @@ public class StatusBar extends Table {
     }
 
     public void update(float delta) {
-        if (timeRemaining > 0) {
+        if (!isTimeUp()) {
             timeRemaining -= delta;
         } else {
             timeRemaining = 0;
@@ -39,7 +39,7 @@ public class StatusBar extends Table {
     private void updateStatusText() {
         int minutes = (int) (timeRemaining / 60);
         int seconds = (int) (timeRemaining % 60);
-        status.setText(String.format("Events: %d / %d\nTime: %02d:%02d", eventsCompleted, MAX_EVENTS, minutes, seconds));
+        status.setText("Events: " + eventsCompleted + "/" + MAX_EVENTS + "\nTime: " + minutes + ":" + seconds);
     }
 
     public void incrementEventCounter() {
@@ -48,7 +48,12 @@ public class StatusBar extends Table {
         }
     }
 
+    public String getStatusText() {
+        return status.getText().toString();
+    }
+
     public boolean isTimeUp() {
         return timeRemaining <= 0;
     }
+
 }
