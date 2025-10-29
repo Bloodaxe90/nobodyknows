@@ -7,30 +7,32 @@ import com.badlogic.gdx.audio.Sound;
 
 public class AudioPlayer {
 
-    private static HashMap<String, Sound> sounds = new HashMap<>();
-    private static HashMap<String, Music> tracks = new HashMap<>();
+    private HashMap<String, Sound> sounds;
+    private HashMap<String, Music> tracks;
+    private Music currentMusic;
+    public boolean musicEnabled = true;
+    private float soundVolume = 1.0f;
+    private float musicVolume = 1.0f;
 
-    public static Music currentMusic;
-    public static boolean musicEnabled = true;
-    public static float soundVolume = 1.0f;
-    public static float musicVolume = 1.0f;
-    public final static String PATH = "music/";
+    public AudioPlayer() {
+        sounds = new HashMap<>();
+        tracks = new HashMap<>();
+        createTrack("bgm", "music/bgm.mp3");
 
-    private static void addSound(String key) {
-        Sound sound = Gdx.audio.newSound(Gdx.files.internal(PATH + key + ".mp3"));
+    }
+
+    public void createSound(String key, String path) {
+        Sound sound = Gdx.audio.newSound(Gdx.files.internal(path));
         sounds.put(key, sound);
     }
 
-    private static void addTrack(String key) {
-        Music track = Gdx.audio.newMusic(Gdx.files.internal(PATH + key + ".mp3"));
+    public void createTrack(String key, String path) {
+        Music track = Gdx.audio.newMusic(Gdx.files.internal(path));
         track.setLooping(true);
         tracks.put(key, track);
     }
 
-    public static void playTrack(String key) {
-        if (!tracks.containsKey(key)) {
-            addTrack(key);
-        }
+    public void playTrack(String key) {
         if (musicEnabled) {
             // If there's a track playing stop it first
             if (currentMusic != null && currentMusic.isPlaying()) {
@@ -44,21 +46,33 @@ public class AudioPlayer {
         }
     }
 
-    public static void playSound(String key) {
-        if (!sounds.containsKey(key)) {
-            addSound(key);
-        }
+    public void setTrack(String key) {
+        currentMusic = tracks.get(key);
+    }
+
+    public void playSound(String key) {
         Sound sound = sounds.get(key);
         sound.play(soundVolume);
     }
 
-    public static void setMusicEnabled(boolean status) {
+    public void setMusicEnabled(boolean status) {
         musicEnabled = status;
-        if (!status) {
-            currentMusic.pause();
-        }
-        else {
-            currentMusic.play();
+        if (currentMusic != null) {
+            if (status == false) {
+                currentMusic.pause();
+            }
+            else {
+                currentMusic.play();
         }
     }
+    }
+
+    public void setSoundVolume(float volume) {
+        soundVolume = volume;
+    }
+
+    public void setMusicVolume(float volume) {
+        musicVolume = volume;
+    }
+
 }

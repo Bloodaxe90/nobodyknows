@@ -28,6 +28,8 @@ public class Main extends ApplicationAdapter {
     private EnemyManager enemyManager;
     private BuildingManager buildingManager;
 
+    private AudioPlayer audioPlayer;
+
     public boolean playing;
     public static final int WORLD_WIDTH = 320 * 3, WORLD_HEIGHT = 240 * 3;
 
@@ -41,6 +43,9 @@ public class Main extends ApplicationAdapter {
 
         gameCamera = new OrthographicCamera();
         gameViewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, gameCamera);
+
+        audioPlayer = new AudioPlayer();
+        audioPlayer.setTrack("bgm");
 
         TiledMap environmentMap = new TmxMapLoader().load("environment/environment.tmx");
         environment = new Environment(environmentMap, spriteBatch);
@@ -58,7 +63,7 @@ public class Main extends ApplicationAdapter {
 
         ui = new UserIntereface(0.05f, new TextureAtlas("ui/ui.atlas"), gameViewport);
         playing = false;
-        AudioPlayer.playTrack("bgm");
+        audioPlayer.musicEnabled = false;
     }
 
     @Override
@@ -76,6 +81,7 @@ public class Main extends ApplicationAdapter {
             Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)
         ) {
             playing = !playing;
+            audioPlayer.setMusicEnabled(!audioPlayer.musicEnabled);
         }
 
         if (playing) {
