@@ -53,6 +53,7 @@ public class UserIntereface {
             statusBar.update(delta);
         }
         if (statusBar.isTimeUp()) {
+            playing = false;
             setupGameOverScreen("Loss\nYou timed out");
         }
         pauseMenu.setVisible(!playing);
