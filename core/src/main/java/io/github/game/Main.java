@@ -16,6 +16,7 @@ import io.github.game.entities.building.BuildingManager;
 import io.github.game.entities.enemy.EnemyManager;
 import io.github.game.entities.player.Player;
 import io.github.game.ui.UserIntereface;
+import io.github.game.utils.io.AudioPlayer;
 
 public class Main extends ApplicationAdapter {
     private SpriteBatch spriteBatch;
@@ -57,6 +58,7 @@ public class Main extends ApplicationAdapter {
 
         ui = new UserIntereface(0.05f, new TextureAtlas("ui/ui.atlas"), gameViewport);
         playing = false;
+        AudioPlayer.playTrack("bgm");
     }
 
     @Override
