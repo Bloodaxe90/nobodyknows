@@ -7,6 +7,7 @@ import com.badlogic.gdx.graphics.Color;
 import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -15,11 +16,13 @@ import io.github.game.ui.UserIntereface;
 public class Main extends ApplicationAdapter {
     private SpriteBatch spriteBatch;
     private FitViewport gameViewport;
+    private AudioPlayer audioPlayer;
 
     private Environment environment;
     private Player player;
     public static final int WORLD_WIDTH = 320, WORLD_HEIGHT = 240;
     public boolean playing = true;
+    public static Vector2 actualWorldSize;
 
     private OrthographicCamera gameCamera;
 
@@ -34,6 +37,7 @@ public class Main extends ApplicationAdapter {
         gameViewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, gameCamera);
 
         environment = new Environment("environment/environment.tmx", spriteBatch);
+        actualWorldSize =  new Vector2(Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
 
         player = new Player(
             0, 0,
@@ -41,6 +45,8 @@ public class Main extends ApplicationAdapter {
             200, new TextureAtlas("atlas/character.atlas"));
 
         ui = new UserIntereface(0.05f, new TextureAtlas("ui/ui.atlas"), gameViewport);
+        audioPlayer = new AudioPlayer();
+        audioPlayer.playTrack("bgm");
     }
 
     @Override
@@ -56,6 +62,7 @@ public class Main extends ApplicationAdapter {
             Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)
         ) {
             playing = !playing;
+            audioPlayer.setMusicEnabled(!audioPlayer.musicEnabled);
         }
 
         if (playing) {
@@ -120,6 +127,16 @@ public class Main extends ApplicationAdapter {
     @Override
     public void resize(int width, int height) {
         gameViewport.update(width, height, true);
+        // Calculates the new actual displayed size of the game world in pixels
+        float aspectRatio = 4 / 3;
+        if (width / height > aspectRatio) { 
+            actualWorldSize.y = height;
+            actualWorldSize.x = aspectRatio  * height;
+        }
+        else {
+            actualWorldSize.x = width;
+            actualWorldSize.y = aspectRatio * height;
+        }
     }
 
     @Override

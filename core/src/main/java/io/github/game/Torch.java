@@ -16,10 +16,10 @@ public class Torch {
 
     public void render(float xPos, float yPos, SpriteBatch batch) {
         shader.bind();
-        shader.setUniformf("u_resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
+        shader.setUniformf("u_resolution", Main.actualWorldSize.x, Main.actualWorldSize.y
+        );
         shader.setUniformf("u_lightPos", xPos / Main.WORLD_WIDTH, yPos / Main.WORLD_HEIGHT);
         batch.setShader(shader);
-
     }
 
     public ShaderProgram getShader() {
