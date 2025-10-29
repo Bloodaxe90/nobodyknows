@@ -11,10 +11,11 @@ import io.github.game.Main;
 import io.github.game.entities.Entity;
 import io.github.game.entities.building.BuildingManager;
 import io.github.game.entities.enemy.EnemyManager;
-import io.github.game.ui.Hotbar;
 import io.github.game.ui.Item;
 import io.github.game.utils.Torch;
 import io.github.game.utils.io.AudioPlayer;
+import io.github.game.ui.Hotbar;
+import io.github.game.ui.Item;
 
 
 public class Player extends Entity {
