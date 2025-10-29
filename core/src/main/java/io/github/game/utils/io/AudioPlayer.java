@@ -4,6 +4,7 @@ import java.util.HashMap;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
+import com.badlogic.gdx.math.MathUtils;
 
 public class AudioPlayer {
 
@@ -14,16 +15,17 @@ public class AudioPlayer {
     public static Music currentMusic;
     public static boolean musicEnabled = true;
     public static float soundVolume = 1.0f;
-    public static float musicVolume = 1.0f;
-    public final static String PATH = "music/";
+    public static float musicVolume = 0.1f;
+    public final static String MUSIC_PATH = "music/";
+    public final static String SFX_PATH = "sfx/";
 
     private static void addSound(String key) {
-        Sound sound = Gdx.audio.newSound(Gdx.files.internal(PATH + key + ".mp3"));
+        Sound sound = Gdx.audio.newSound(Gdx.files.internal(SFX_PATH + key + ".mp3"));
         sounds.put(key, sound);
     }
 
     private static void addTrack(String key) {
-        Music track = Gdx.audio.newMusic(Gdx.files.internal(PATH + key + ".mp3"));
+        Music track = Gdx.audio.newMusic(Gdx.files.internal(MUSIC_PATH + key + ".mp3"));
         track.setLooping(true);
         tracks.put(key, track);
     }
@@ -53,6 +55,14 @@ public class AudioPlayer {
         sound.play(soundVolume);
     }
 
+    public static void playSound(String key, float pitch) {
+        if (!sounds.containsKey(key)) {
+            addSound(key);
+        }
+        Sound sound = sounds.get(key);
+        sound.play(soundVolume, pitch, 1.0f);
+    }
+
     public static void setMusicEnabled(boolean status) {
         musicEnabled = status;
         if (!status) {
@@ -61,5 +71,12 @@ public class AudioPlayer {
         else {
             currentMusic.play();
         }
+    }
+
+    public static void footstep() {
+        // Picks a random footstep sound
+        int stepNumber = MathUtils.random(1, 3);
+        float pitch = MathUtils.random(0.9f, 1.1f);
+        playSound("footstep" + stepNumber, pitch);
     }
 }

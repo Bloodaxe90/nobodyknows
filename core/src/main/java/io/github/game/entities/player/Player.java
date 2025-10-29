@@ -11,9 +11,10 @@ import io.github.game.Main;
 import io.github.game.entities.Entity;
 import io.github.game.entities.building.BuildingManager;
 import io.github.game.entities.enemy.EnemyManager;
-import io.github.game.utils.Torch;
 import io.github.game.ui.Hotbar;
 import io.github.game.ui.Item;
+import io.github.game.utils.Torch;
+import io.github.game.utils.io.AudioPlayer;
 
 
 public class Player extends Entity {
@@ -22,6 +23,7 @@ public class Player extends Entity {
     private final Array<Item> inventory;
     private final Torch torch;
     private final TextureAtlas spriteAtlas;
+    private int footstepTimer = 0;
 
     public Player(String name,
                   float xPos, float yPos,
@@ -88,6 +90,13 @@ public class Player extends Entity {
             vx = 0;
             hitbox.setXPos(xPos);
         }
+        else if (vy != 0 || vx != 0) {
+            footstepTimer += 1;
+            if (footstepTimer > 25) {
+                AudioPlayer.footstep();
+                footstepTimer = 0;
+            }
+        }
 
         yPos += vy * delta_t;
         hitbox.setYPos(yPos);
@@ -110,6 +119,7 @@ public class Player extends Entity {
 
     private void updateSprite(boolean isIdle) {
         String prefix = isIdle ? "idle" : "";
+
         if (vx > 0) {
             setSprite(prefix + "right", stateTime);
         } else if (vx < 0) {
