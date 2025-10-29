@@ -13,7 +13,7 @@ public class AudioPlayer {
     private static HashMap<String, Music> tracks = new HashMap<>();
 
     public static Music currentMusic;
-    public static boolean musicEnabled = true;
+    private static boolean musicEnabled = true;
     public final static String MUSIC_PATH = "music/";
     public final static String SFX_PATH = "sfx/";
 
@@ -53,13 +53,14 @@ public class AudioPlayer {
         sound.play(volume);
     }
 
-    public static void playSound(String key, float volume, float pitch) {
-        if (!sounds.containsKey(key)) {
-            addSound(key);
-        }
-        Sound sound = sounds.get(key);
-        sound.play(volume, pitch, 1.0f);
-    }
+//    was causing issues so commented it out
+//    public static void playSound(String key, float volume, float pitch) {
+//        if (!sounds.containsKey(key)) {
+//            addSound(key);
+//        }
+//        Sound sound = sounds.get(key);
+//        sound.play(volume, pitch, 1.0f);
+//    }
 
     public static void setMusicEnabled(boolean status) {
         musicEnabled = status;
