@@ -4,8 +4,10 @@ import com.badlogic.gdx.Gdx;
 
 public final class DialogueLoader {
 
+    public final static String PATH = "dialogue/";
+
     public static String getBlock(String filename, int optionNumber) {
-        String text = Gdx.files.internal("dialogue/" + filename + ".txt").readString();
+        String text = Gdx.files.internal(PATH + filename + ".txt").readString();
 
         String[] blocks = text.split("---");
 

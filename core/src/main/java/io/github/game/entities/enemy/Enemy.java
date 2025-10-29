@@ -70,7 +70,7 @@ public class Enemy extends Entity {
         hitbox.setYPos(yPos);
         stateTime += delta_t;
         //TODO make it so sprites represent the enemies movement properly like the players
-        updateSprite(true);
+        updateSprite(false);
 
         if (interact && interaction != null) {
             interaction.interact(this, player, ui);
