@@ -7,6 +7,7 @@ import com.badlogic.gdx.audio.Sound;
 
 public class AudioPlayer {
 
+    //Must only play .mp3 files
     private static HashMap<String, Sound> sounds = new HashMap<>();
     private static HashMap<String, Music> tracks = new HashMap<>();
 

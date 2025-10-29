@@ -59,6 +59,8 @@ public class Main extends ApplicationAdapter {
         ui = new UserIntereface(0.05f, new TextureAtlas("ui/ui.atlas"), gameViewport);
         playing = false;
         AudioPlayer.playTrack("bgm");
+        AudioPlayer.setMusicEnabled(false);
+
     }
 
     @Override
@@ -72,15 +74,15 @@ public class Main extends ApplicationAdapter {
         if (isGameOver()) return;
         if (Gdx.input.isKeyJustPressed(Input.Keys.P) ||
             Gdx.input.isKeyJustPressed(Input.Keys.ESCAPE) ||
-            Gdx.input.isKeyJustPressed(Input.Keys.SPACE) ||
             Gdx.input.isButtonJustPressed(Input.Buttons.LEFT)
         ) {
             playing = !playing;
+            AudioPlayer.setMusicEnabled(playing);
         }
 
         if (playing) {
             if (ui.getDialogueBox().isVisible()) {
-                if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER)) {
+                if (Gdx.input.isKeyJustPressed(Input.Keys.ENTER) || Gdx.input.isKeyJustPressed(Input.Keys.SPACE)) {
                     if (!ui.getDialogueBox().isFinished()) {
                         ui.getDialogueBox().skip();
                     } else {
