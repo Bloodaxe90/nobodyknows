@@ -149,7 +149,7 @@ public class Player extends Entity {
 
     public void removeItem(String itemName) {
         for (Item item : inventory) {
-            inventory.removeValue(item, false);
+            if (item.getName().equals(itemName)) inventory.removeValue(item, false);
         }
     }
 

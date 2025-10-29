@@ -17,7 +17,7 @@ public class Hotbar extends Table {
 
     private Array<Image> itemIcons;
 
-    private TextureAtlas itemAtlas;
+    private final TextureAtlas itemAtlas;
 
     public Hotbar(TextureAtlas uiAtlas) {
         super();
@@ -29,9 +29,8 @@ public class Hotbar extends Table {
         this.setBackground(new TextureRegionDrawable(hotbar));
 
         // TODO positioning code a bit janky needs to be sorted more universal
-        int scaleFactor = 2;
-        int width = (int)(hotbar.getRegionWidth() / scaleFactor);
-        int height = (int)(hotbar.getRegionHeight() / scaleFactor);
+        int width = hotbar.getRegionWidth();
+        int height = hotbar.getRegionHeight();
 
         this.setSize(width, height);
 
@@ -44,8 +43,8 @@ public class Hotbar extends Table {
 
         float iconsY = 2;
         float slotWidth = width / padding;
-        int iconSize = (width - (44 / scaleFactor)) / (int)padding;
-        float firstIconX = padding - (padding / scaleFactor);
+        int iconSize = (width - 44) / (int)padding;
+        float firstIconX = padding - padding;
         for (int i = 0; i < NUM_SLOTS; i++) {
             Image itemIcon = new Image();
             itemIcon.setVisible(false);
