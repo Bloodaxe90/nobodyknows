@@ -1,6 +1,7 @@
 package io.github.game;
 
 import com.badlogic.gdx.graphics.OrthographicCamera;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.maps.MapObject;
 import com.badlogic.gdx.maps.objects.RectangleMapObject;
 import com.badlogic.gdx.maps.tiled.TiledMap;
@@ -16,9 +17,9 @@ public class Environment {
     private final OrthogonalTiledMapRenderer environmentRenderer;
 
 
-    public Environment(TiledMap environmentMap) {
+    public Environment(TiledMap environmentMap, SpriteBatch spriteBatch) {
         this.environmentMap = environmentMap;
-        this.environmentRenderer = new OrthogonalTiledMapRenderer(environmentMap, 1f);
+        this.environmentRenderer = new OrthogonalTiledMapRenderer(environmentMap, 1f, spriteBatch);
 
     }
 
