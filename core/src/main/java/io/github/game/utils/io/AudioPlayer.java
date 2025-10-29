@@ -14,8 +14,6 @@ public class AudioPlayer {
 
     public static Music currentMusic;
     public static boolean musicEnabled = true;
-    public static float soundVolume = 1.0f;
-    public static float musicVolume = 0.1f;
     public final static String MUSIC_PATH = "music/";
     public final static String SFX_PATH = "sfx/";
 
@@ -30,7 +28,7 @@ public class AudioPlayer {
         tracks.put(key, track);
     }
 
-    public static void playTrack(String key) {
+    public static void playTrack(String key, float volume) {
         if (!tracks.containsKey(key)) {
             addTrack(key);
         }
@@ -42,25 +40,25 @@ public class AudioPlayer {
 
             // Set new music
             currentMusic = tracks.get(key);
-            currentMusic.setVolume(musicVolume);
+            currentMusic.setVolume(volume);
             currentMusic.play();
         }
     }
 
-    public static void playSound(String key) {
+    public static void playSound(String key, float volume) {
         if (!sounds.containsKey(key)) {
             addSound(key);
         }
         Sound sound = sounds.get(key);
-        sound.play(soundVolume);
+        sound.play(volume);
     }
 
-    public static void playSound(String key, float pitch) {
+    public static void playSound(String key, float volume, float pitch) {
         if (!sounds.containsKey(key)) {
             addSound(key);
         }
         Sound sound = sounds.get(key);
-        sound.play(soundVolume, pitch, 1.0f);
+        sound.play(volume, pitch, 1.0f);
     }
 
     public static void setMusicEnabled(boolean status) {
@@ -71,12 +69,5 @@ public class AudioPlayer {
         else {
             currentMusic.play();
         }
-    }
-
-    public static void footstep() {
-        // Picks a random footstep sound
-        int stepNumber = MathUtils.random(1, 3);
-        float pitch = MathUtils.random(0.9f, 1.1f);
-        playSound("footstep" + stepNumber, pitch);
     }
 }

@@ -1,5 +1,6 @@
 package io.github.game.entities.player;
 
+import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -24,19 +25,22 @@ public class Player extends Entity {
     private final Array<Item> inventory;
     private final Torch torch;
     private final TextureAtlas spriteAtlas;
-    private int footstepTimer = 0;
+    private float footstepTimer = 0;
+    private float footstepTimeout;
 
     public Player(String name,
                   float xPos, float yPos,
                   int width, int height,
                   float hitboxXOffset, float hitboxYOffset,
                   int hitboxWidth, int hitboxHeight,
+                  float footsetTimeout,
                   float speed,
                   TextureAtlas spriteAtlas) {
         super(name, xPos, yPos, width, height, hitboxXOffset, hitboxYOffset, hitboxWidth, hitboxHeight, speed, true);
 
         this.spriteAtlas = spriteAtlas;
         this.inventory = new Array<>(Hotbar.NUM_SLOTS);
+        this.footstepTimeout = footsetTimeout;
         // Sets up the sprite movement map
         for (String str : new String[]{"front", "back", "left", "right"}) {
             addAnimation(str, 0.1f, Animation.PlayMode.LOOP, spriteAtlas);
@@ -53,9 +57,10 @@ public class Player extends Entity {
     public Player(String name,
                   float xPos, float yPos,
                   int width, int height,
+                  float footsetTimeout,
                   float speed,
                   TextureAtlas spriteAtlas) {
-        this(name, xPos, yPos, width, height, 0f, 0f, width, height, speed, spriteAtlas);
+        this(name, xPos, yPos, width, height, 0f, 0f, width, height, footsetTimeout, speed, spriteAtlas);
     }
 
     @Override
@@ -91,13 +96,6 @@ public class Player extends Entity {
             vx = 0;
             hitbox.setXPos(xPos);
         }
-        else if (vy != 0 || vx != 0) {
-            footstepTimer += 1;
-            if (footstepTimer > 25) {
-                AudioPlayer.footstep();
-                footstepTimer = 0;
-            }
-        }
 
         yPos += vy * delta_t;
         hitbox.setYPos(yPos);
@@ -114,8 +112,22 @@ public class Player extends Entity {
         }
 
         updateSprite(false);
+        updateSFX(delta_t);
         stateTime += delta_t;
 
+
+    }
+
+    private void updateSFX(float delta_t) {
+        if (vy == 0 && vx == 0) {
+            footstepTimer = 0;
+        } else {
+            if (footstepTimer > footstepTimeout || footstepTimer == 0) {
+                AudioPlayer.playSound("footstep" + MathUtils.random(1, 3), 0.5f, MathUtils.random(0.9f, 1.1f));
+                footstepTimer = 0;
+            }
+            footstepTimer += delta_t;
+        }
     }
 
     private void updateSprite(boolean isIdle) {
@@ -189,4 +201,5 @@ public class Player extends Entity {
         spriteAtlas.dispose();
         torch.dispose();
     }
+
 }

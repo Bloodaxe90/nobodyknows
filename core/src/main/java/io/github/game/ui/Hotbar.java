@@ -43,8 +43,8 @@ public class Hotbar extends Table {
 
         float iconsY = 2;
         float slotWidth = width / padding;
-        int iconSize = (width - 44) / (int)padding;
-        float firstIconX = padding - padding;
+        int iconSize = (width - 46) / (int)padding;
+        float firstIconX = padding;
         for (int i = 0; i < NUM_SLOTS; i++) {
             Image itemIcon = new Image();
             itemIcon.setVisible(false);
