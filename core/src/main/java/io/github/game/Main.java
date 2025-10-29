@@ -99,7 +99,6 @@ public class Main extends ApplicationAdapter {
     public void logic() {
         float delta_t = Gdx.graphics.getDeltaTime();
 
-        if (ui.getStatusBar().isTimeUp()) playing = false;
         // update your player, enemies, and check for collisions
         if (playing) {
             buildingManager.update(player, ui);
