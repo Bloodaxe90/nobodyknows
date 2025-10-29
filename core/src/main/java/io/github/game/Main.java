@@ -4,13 +4,13 @@ import com.badlogic.gdx.ApplicationAdapter;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.Input;
 import com.badlogic.gdx.graphics.Color;
+import com.badlogic.gdx.graphics.OrthographicCamera;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import io.github.game.ui.UserIntereface;
-import io.github.game.utils.EnvironmentReader;
 
 public class Main extends ApplicationAdapter {
     private SpriteBatch spriteBatch;
@@ -21,17 +21,20 @@ public class Main extends ApplicationAdapter {
     public static final int WORLD_WIDTH = 320, WORLD_HEIGHT = 240;
     public boolean playing = true;
 
+    private OrthographicCamera gameCamera;
+
     private UserIntereface ui;
 
     @Override
     public void create() {
 
         spriteBatch = new SpriteBatch();
-        gameViewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT);
 
-        int[][] environmentBlueprint = EnvironmentReader.readEnvironment("environment/environment.txt");
+        gameCamera = new OrthographicCamera();
+        gameViewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, gameCamera);
 
-        this.environment = new Environment(environmentBlueprint, new TextureAtlas("atlas/tiles.atlas"));
+        environment = new Environment("environment/environment.tmx", spriteBatch);
+
         player = new Player(
             0, 0,
             16, 16,
@@ -94,7 +97,6 @@ public class Main extends ApplicationAdapter {
         // update your player, enemies, and check for collisions
         if (playing) {
             player.update(delta_t, environment);
-            environment.update(delta_t);
         }
         ui.update(delta_t, playing, player);
     }
@@ -102,17 +104,18 @@ public class Main extends ApplicationAdapter {
     public void draw() {
         ScreenUtils.clear(Color.BLACK);
         gameViewport.apply();
+        environment.render(gameCamera);
         spriteBatch.setProjectionMatrix(gameViewport.getCamera().combined);
 
         spriteBatch.begin();
 
         // Draw in here
-        environment.render(spriteBatch);
         player.render(spriteBatch);
 
         spriteBatch.end();
         ui.render();
     }
+
 
     @Override
     public void resize(int width, int height) {

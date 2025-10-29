@@ -5,14 +5,16 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.utils.Array;
-import io.github.game.ui.Item;
+
 import io.github.game.ui.Hotbar;
+import io.github.game.ui.Item;
 
 
 public class Player extends Entity {
 
     private boolean movingUp, movingDown, movingLeft, movingRight;
-    private Array<Item> inventory;
+    private final Array<Item> inventory;
+    private final Torch torch;
 
     public Player(float xPos, float yPos,
                   int width, int height,
@@ -31,6 +33,8 @@ public class Player extends Entity {
             addAnimation(name, 1f, Animation.PlayMode.LOOP);
         }
 
+        this.torch = new Torch();
+
         setSprite("front", stateTime);
     }
 
@@ -43,8 +47,8 @@ public class Player extends Entity {
 
     @Override
     public void render(SpriteBatch batch) {
-
         batch.draw(sprite, xPos, yPos, width, height);
+        torch.render(xPos + (width / 2f), yPos + (height / 2f), batch);
     }
 
     public void update(float delta_t, Environment environment) {
@@ -62,7 +66,7 @@ public class Player extends Entity {
         if (xPos < 0 || xPos + width > Main.WORLD_WIDTH) {
             vx = 0;
             xPos = MathUtils.clamp(xPos, 0, Main.WORLD_WIDTH - width);
-        } else if (environment.checkCollision(this)) {
+        } else if (environment.checkCollision(hitbox)) {
             xPos -= vx * delta_t;
             updateSprite(true);
             vx = 0;
@@ -72,10 +76,11 @@ public class Player extends Entity {
         yPos += vy * delta_t;
         hitbox.setYPos(yPos);
 
+
         if (yPos < 0 || yPos + height > Main.WORLD_HEIGHT) {
             vy = 0;
             yPos = MathUtils.clamp(yPos, 0, Main.WORLD_HEIGHT - height);
-        } else if (environment.checkCollision(this)) {
+        } else if (environment.checkCollision(hitbox)) {
             yPos -= vy * delta_t;
             updateSprite(true);
             vy = 0;
@@ -133,5 +138,14 @@ public class Player extends Entity {
 
     public Array<Item> getInventory() {
         return inventory;
+    }
+
+    public Torch getTorch() {
+        return torch;
+    }
+
+    public void dispose() {
+        super.dispose();
+        torch.dispose();
     }
 }

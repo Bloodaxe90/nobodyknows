@@ -10,7 +10,7 @@ import io.github.game.Main;
 
 public class DialogueBox extends Table {
 
-    private Label dialogueBox;
+    private final Label dialogueBox;
     private String text;
     private int visibleTextLength = 0;
     private float letterTime;
