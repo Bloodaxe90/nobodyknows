@@ -42,7 +42,7 @@ public class Main extends ApplicationAdapter {
         gameViewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, gameCamera);
 
         TiledMap environmentMap = new TmxMapLoader().load("environment/environment.tmx");
-        environment = new Environment(environmentMap);
+        environment = new Environment(environmentMap, spriteBatch);
 
         //TODO positions are messy and need to be changed
         player = new Player(
