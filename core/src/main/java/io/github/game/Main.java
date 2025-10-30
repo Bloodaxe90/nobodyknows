@@ -48,9 +48,9 @@ public class Main extends ApplicationAdapter {
         //TODO positions are messy and need to be changed
         player = new Player(
             "Player",
-            (Main.WORLD_WIDTH / 2f) - 8, (Main.WORLD_HEIGHT / 2f) - 16 - 48,
+            (Main.WORLD_WIDTH / 2f), (Main.WORLD_HEIGHT / 2f) - 100,
             16, 16,
-            0.5f, 200,
+            2f, 200,
             new TextureAtlas("atlas/character.atlas"));
 
         enemyManager = new EnemyManager(new TextureAtlas("atlas/enemies.atlas"));

@@ -1,6 +1,5 @@
 package io.github.game.entities.player;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
@@ -12,11 +11,10 @@ import io.github.game.Main;
 import io.github.game.entities.Entity;
 import io.github.game.entities.building.BuildingManager;
 import io.github.game.entities.enemy.EnemyManager;
+import io.github.game.ui.Hotbar;
 import io.github.game.ui.Item;
 import io.github.game.utils.Torch;
 import io.github.game.utils.io.AudioPlayer;
-import io.github.game.ui.Hotbar;
-import io.github.game.ui.Item;
 
 
 public class Player extends Entity {
@@ -33,14 +31,14 @@ public class Player extends Entity {
                   int width, int height,
                   float hitboxXOffset, float hitboxYOffset,
                   int hitboxWidth, int hitboxHeight,
-                  float footsetTimeout,
+                  float footstepFrequency,
                   float speed,
                   TextureAtlas spriteAtlas) {
         super(name, xPos, yPos, width, height, hitboxXOffset, hitboxYOffset, hitboxWidth, hitboxHeight, speed, true);
 
         this.spriteAtlas = spriteAtlas;
         this.inventory = new Array<>(Hotbar.NUM_SLOTS);
-        this.footstepTimeout = footsetTimeout;
+        this.footstepTimeout = 1 / footstepFrequency;
         // Sets up the sprite movement map
         for (String str : new String[]{"front", "back", "left", "right"}) {
             addAnimation(str, 0.1f, Animation.PlayMode.LOOP, spriteAtlas);
