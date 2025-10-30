@@ -45,13 +45,15 @@ public class Main extends ApplicationAdapter {
         gameViewport = new FitViewport(WORLD_SIZE.x, WORLD_SIZE.y, gameCamera);
 
         TiledMap environmentMap = new TmxMapLoader().load("environment/environment.tmx");
-        environment = new Environment(environmentMap, spriteBatch, new Vector2(WORLD_CENTER).sub(new Vector2(0, -100)));
+        environment = new Environment(environmentMap, spriteBatch, new Vector2(WORLD_CENTER).add(0, -100f));
 
         //TODO positions are messy and need to be changed
         player = new Player(
             "Player",
             environment.getSpawn(),
             new Vector2(16, 16),
+            new Vector2(6, 0),
+            new Vector2(4, 4),
             2f, 200,
             new TextureAtlas("atlas/character.atlas"));
 
