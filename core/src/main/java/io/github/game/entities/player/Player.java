@@ -75,7 +75,7 @@ public class Player extends Entity {
             return;
         }
 
-        velocity = new Vector2(0f, 0f);
+        velocity.set(0f, 0f);
 
         if (movingLeft) velocity.x = -speed;
         if (movingRight) velocity.x = speed;

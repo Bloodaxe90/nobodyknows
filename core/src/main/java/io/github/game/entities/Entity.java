@@ -38,7 +38,7 @@ public abstract class Entity {
                   float speed,
                   boolean collidable) {
         this.name = name;
-        this.position = new Vector2(position);
+        this.position = position;
         this.size = size;
         this.speed = speed;
         this.collidable = collidable;
@@ -71,16 +71,16 @@ public abstract class Entity {
     }
 
     public Vector2 getPos() {
-        return position;
+        return new Vector2(position);
     }
 
     public void setXPos(Float XPos) {
-        this.position.x = XPos;
+        position.x = XPos;
         hitbox.setXPos(XPos);
     }
 
     public void setYPos(Float YPos) {
-        this.position.y = YPos;
+        position.y = YPos;
         hitbox.setYPos(YPos);
     }
 

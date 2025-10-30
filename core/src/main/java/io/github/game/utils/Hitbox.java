@@ -9,8 +9,9 @@ public class Hitbox {
 
 
     public Hitbox(Vector2 position, Vector2 size, Vector2 offset) {
+
         this.bounds = new Rectangle(position.x + offset.x, position.y + offset.y, size.x, size.y);
-        this.offset = offset;
+        this.offset = new Vector2(offset);
     }
 
     public Hitbox(Vector2 position, Vector2 size) {

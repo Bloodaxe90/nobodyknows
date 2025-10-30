@@ -44,7 +44,7 @@ public class Main extends ApplicationAdapter {
         gameViewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, gameCamera);
 
         TiledMap environmentMap = new TmxMapLoader().load("environment/environment.tmx");
-        environment = new Environment(environmentMap, spriteBatch, new Vector2(WORLD_WIDTH / 2, WORLD_HEIGHT / 2 - 60));
+        environment = new Environment(environmentMap, spriteBatch, new Vector2(WORLD_WIDTH / 2, WORLD_HEIGHT / 2 - 100));
 
         //TODO positions are messy and need to be changed
         player = new Player(
@@ -109,15 +109,14 @@ public class Main extends ApplicationAdapter {
         if (playing) {
             buildingManager.update(player, ui);
             if (!ui.getDialogueBox().isVisible()) {
-                enemyManager.update(delta_t, environment, player, ui);
+                 System.out.println("INITIAL " + player.getPos());
+                // enemyManager.update(delta_t, environment, player, ui);
+                System.out.println("POST " + player.getPos());
             }
             player.update(delta_t, environment, buildingManager, enemyManager);
 
         }
         ui.update(delta_t, playing, player);
-
-        System.out.println(player.getPos());
-        System.out.println(player.getVelocity());
     }
 
 
