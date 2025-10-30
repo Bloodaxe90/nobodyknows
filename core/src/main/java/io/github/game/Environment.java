@@ -8,6 +8,8 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.renderers.OrthogonalTiledMapRenderer;
 import com.badlogic.gdx.math.Intersector;
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
+
 import io.github.game.utils.Hitbox;
 
 
@@ -15,12 +17,13 @@ public class Environment {
 
     private final TiledMap environmentMap;
     private final OrthogonalTiledMapRenderer environmentRenderer;
+    private final Vector2 spawnPoint;
 
 
-    public Environment(TiledMap environmentMap, SpriteBatch spriteBatch) {
+    public Environment(TiledMap environmentMap, SpriteBatch spriteBatch, Vector2 spawnPoint) {
         this.environmentMap = environmentMap;
         this.environmentRenderer = new OrthogonalTiledMapRenderer(environmentMap, 1f, spriteBatch);
-
+        this.spawnPoint = spawnPoint;
     }
 
     public void render(OrthographicCamera camera) {
@@ -47,6 +50,10 @@ public class Environment {
 
     public int getTileSize() {
         return environmentMap.getProperties().get("tilewidth", Integer.class);
+    }
+
+    public Vector2 getSpawn() {
+        return spawnPoint;
     }
 
 }

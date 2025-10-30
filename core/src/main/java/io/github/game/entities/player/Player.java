@@ -1,10 +1,10 @@
 package io.github.game.entities.player;
 
-import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.Animation;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
 import io.github.game.Environment;
@@ -12,11 +12,10 @@ import io.github.game.Main;
 import io.github.game.entities.Entity;
 import io.github.game.entities.building.BuildingManager;
 import io.github.game.entities.enemy.EnemyManager;
+import io.github.game.ui.Hotbar;
 import io.github.game.ui.Item;
 import io.github.game.utils.Torch;
 import io.github.game.utils.io.AudioPlayer;
-import io.github.game.ui.Hotbar;
-import io.github.game.ui.Item;
 
 
 public class Player extends Entity {
@@ -29,18 +28,18 @@ public class Player extends Entity {
     private float footstepTimeout;
 
     public Player(String name,
-                  float xPos, float yPos,
-                  int width, int height,
-                  float hitboxXOffset, float hitboxYOffset,
-                  int hitboxWidth, int hitboxHeight,
-                  float footsetTimeout,
+                  Vector2 position,
+                  Vector2 size,
+                  Vector2 hitboxOffset,
+                  Vector2 hitboxSize,
+                  float footstepFrequency,
                   float speed,
                   TextureAtlas spriteAtlas) {
-        super(name, xPos, yPos, width, height, hitboxXOffset, hitboxYOffset, hitboxWidth, hitboxHeight, speed, true);
+        super(name, position, size, hitboxOffset, hitboxSize, speed, true);
 
         this.spriteAtlas = spriteAtlas;
         this.inventory = new Array<>(Hotbar.NUM_SLOTS);
-        this.footstepTimeout = footsetTimeout;
+        this.footstepTimeout = 1 / footstepFrequency;
         // Sets up the sprite movement map
         for (String str : new String[]{"front", "back", "left", "right"}) {
             addAnimation(str, 0.1f, Animation.PlayMode.LOOP, spriteAtlas);
@@ -55,19 +54,19 @@ public class Player extends Entity {
     }
 
     public Player(String name,
-                  float xPos, float yPos,
-                  int width, int height,
-                  float footsetTimeout,
+                  Vector2 position,
+                  Vector2 size,
+                  float footstepFrequency,
                   float speed,
                   TextureAtlas spriteAtlas) {
-        this(name, xPos, yPos, width, height, 0f, 0f, width, height, footsetTimeout, speed, spriteAtlas);
+        this(name, position, size, new Vector2(0f, 0f), size, footstepFrequency, speed, spriteAtlas);
     }
 
     @Override
     public void render(SpriteBatch batch) {
         super.render(batch);
         if (active) {
-            torch.render(xPos + (width / 2f), yPos + (height / 2f), batch);
+            torch.render(position.x + (size.x / 2f), position.y + (size.y / 2f), batch);
         }
     }
 
@@ -76,39 +75,38 @@ public class Player extends Entity {
             return;
         }
 
-        vx = 0;
-        vy = 0;
+        velocity.set(0f, 0f);
 
-        if (movingLeft) vx = -speed;
-        if (movingRight) vx = speed;
-        if (movingUp) vy = speed;
-        if (movingDown) vy = -speed;
+        if (movingLeft) velocity.x = -speed;
+        if (movingRight) velocity.x = speed;
+        if (movingUp) velocity.y = speed;
+        if (movingDown) velocity.y = -speed;
 
-        xPos += vx * delta_t;
-        hitbox.setXPos(xPos);
+        position.x += velocity.x * delta_t;
+        hitbox.setXPos(position.x);
 
-        if (xPos < 0 || xPos + width > Main.WORLD_WIDTH) {
-            vx = 0;
-            xPos = MathUtils.clamp(xPos, 0, Main.WORLD_WIDTH - width);
+        if (position.x < 0 || position.x + size.x > Main.WORLD_WIDTH) {
+            velocity.x = 0;
+            position.x = MathUtils.clamp(position.x, 0, Main.WORLD_WIDTH - size.x);
         } else if (environment.checkCollision(hitbox) || buildingManager.checkCollision(hitbox) || enemyManager.checkCollision(hitbox)) {
-            xPos -= vx * delta_t;
+            position.x -= velocity.x * delta_t;
             updateSprite(true);
-            vx = 0;
-            hitbox.setXPos(xPos);
+            velocity.x = 0;
+            hitbox.setXPos(position.x);
         }
 
-        yPos += vy * delta_t;
-        hitbox.setYPos(yPos);
+        position.y += velocity.y * delta_t;
+        hitbox.setYPos(position.y);
 
 
-        if (yPos < 0 || yPos + height > Main.WORLD_HEIGHT) {
-            vy = 0;
-            yPos = MathUtils.clamp(yPos, 0, Main.WORLD_HEIGHT - height);
+        if (position.y < 0 || position.y + size.y > Main.WORLD_HEIGHT) {
+            velocity.y = 0;
+            position.y = MathUtils.clamp(position.y, 0, Main.WORLD_HEIGHT - size.y);
         } else if (environment.checkCollision(hitbox) || buildingManager.checkCollision(hitbox) || enemyManager.checkCollision(hitbox)) {
-            yPos -= vy * delta_t;
+            position.y -= velocity.y * delta_t;
             updateSprite(true);
-            vy = 0;
-            hitbox.setYPos(yPos);
+            velocity.y = 0;
+            hitbox.setYPos(position.y);
         }
 
         updateSprite(false);
@@ -119,7 +117,7 @@ public class Player extends Entity {
     }
 
     private void updateSFX(float delta_t) {
-        if (vy == 0 && vx == 0) {
+        if (velocity.isZero()) {
             footstepTimer = 0;
         } else {
             if (footstepTimer > footstepTimeout || footstepTimer == 0) {
@@ -133,13 +131,13 @@ public class Player extends Entity {
     private void updateSprite(boolean isIdle) {
         String prefix = isIdle ? "idle" : "";
 
-        if (vx > 0) {
+        if (velocity.x > 0) {
             setSprite(prefix + "right", stateTime);
-        } else if (vx < 0) {
+        } else if (velocity.x < 0) {
             setSprite(prefix + "left", stateTime);
-        } else if (vy > 0) {
+        } else if (velocity.y > 0) {
             setSprite(prefix + "back", stateTime);
-        } else if (vy < 0) {
+        } else if (velocity.y < 0) {
             setSprite(prefix + "front", stateTime);
         }
     }
