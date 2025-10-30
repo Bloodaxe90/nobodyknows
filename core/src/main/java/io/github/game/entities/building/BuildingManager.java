@@ -23,14 +23,14 @@ public class BuildingManager {
 
         //TODO positions are messy and need to be changed
         Vector2 size = new Vector2 (96, 96);
-        buildings.add(new Building("greggs", new GiveItemInteraction("sausage_roll", 0, 1, false, true), new Vector2(Main.WORLD_SIZE).scl(1/2, 1).add(96, size.y), size, spriteAtlas));
-        buildings.add(new Building("pza", new DialogueInteraction(0, false, false), new Vector2(Main.WORLD_SIZE).scl(17/20, 11/16), size, spriteAtlas));
-        buildings.add(new Building("rch", new GiveItemInteraction("keycard", 0, 0, false, true), new Vector2(Main.WORLD_SIZE).scl(7/8, 1/3), size, spriteAtlas));
-        buildings.add(new Building("halifax", new DialogueInteraction(0, false, false), new Vector2(Main.WORLD_SIZE).scl(1/4, 1).add(0, -size.y), size, spriteAtlas));
-        buildings.add(new Building("derwent", new DialogueInteraction(0, false, false), new Vector2(48, Main.WORLD_SIZE.y - size.y*2), size, spriteAtlas));
-        buildings.add(new Building("compsci", new DialogueInteraction(0, false, false), new Vector2(Main.WORLD_SIZE).scl(5/8, 5/8), size, spriteAtlas));
-        buildings.add(new Building("home", new GameWinInteraction("keycard", 0, false, true), new Vector2(0, 0), size, spriteAtlas));
-        buildings.add(new Building("central", new DialogueInteraction(0, false, false), new Vector2(Main.WORLD_SIZE).scl(1/2, 1/2).add(-size.x/2, -size.y/2), size, spriteAtlas));
+        buildings.add(new Building("greggs", new GiveItemInteraction("sausage_roll", 0, 1, false, true), new Vector2(Main.WORLD_SIZE).scl(1f/2f, 1f).add(96f, size.y), size, spriteAtlas));
+        buildings.add(new Building("pza", new DialogueInteraction(0, false, false), new Vector2(Main.WORLD_SIZE).scl(17f/20f, 11f/16f), size, spriteAtlas));
+        buildings.add(new Building("rch", new GiveItemInteraction("keycard", 0, 0, false, true), new Vector2(Main.WORLD_SIZE).scl(7f/8f, 1f/3f), size, spriteAtlas));
+        buildings.add(new Building("halifax", new DialogueInteraction(0, false, false), new Vector2(Main.WORLD_SIZE).scl(1f/4f, 1f).add(0f, -size.y), size, spriteAtlas));
+        buildings.add(new Building("derwent", new DialogueInteraction(0, false, false), new Vector2(48f, Main.WORLD_SIZE.y - size.y*2f), size, spriteAtlas));
+        buildings.add(new Building("compsci", new DialogueInteraction(0, false, false), new Vector2(Main.WORLD_SIZE).scl(5f/8f, 5f/8f), size, spriteAtlas));
+        buildings.add(new Building("home", new GameWinInteraction("keycard", 0, false, true), new Vector2(0f, 0f), size, spriteAtlas));
+        buildings.add(new Building("central", new DialogueInteraction(0, false, false), new Vector2(Main.WORLD_SIZE).scl(1f/2f, 1f/2f).add(-size.x/2f, -size.y/2f), size, spriteAtlas));
     }
 
     public void render(SpriteBatch batch) {
