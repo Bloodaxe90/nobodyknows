@@ -4,12 +4,13 @@ package io.github.game.ui;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.scenes.scene2d.Stage;
-import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
+import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
 import com.badlogic.gdx.scenes.scene2d.ui.Skin;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
+
 import io.github.game.Main;
 
 public class DialogueBox extends Table {
@@ -29,7 +30,7 @@ public class DialogueBox extends Table {
 
         TextureRegion backgroundRegion = uiAtlas.findRegion("dialog");
         this.setBackground(new TextureRegionDrawable(backgroundRegion));
-        this.setBounds(0, 0, Main.WORLD_WIDTH, Main.WORLD_HEIGHT / 3f);
+        this.setBounds(0, 0, Main.WORLD_SIZE.x, Main.WORLD_SIZE.y / 3f);
 
         this.letterTime = letterTime;
 

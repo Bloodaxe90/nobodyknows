@@ -2,14 +2,12 @@ package io.github.game.ui;
 
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
-import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Image;
-import com.badlogic.gdx.scenes.scene2d.ui.Stack;
 import com.badlogic.gdx.scenes.scene2d.ui.Table;
 import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Array;
+
 import io.github.game.Main;
-import io.github.game.ui.Item;
 
 public class Hotbar extends Table {
 
@@ -35,7 +33,7 @@ public class Hotbar extends Table {
         this.setSize(width, height);
 
         float padding = 5f;
-        float yPos = Main.WORLD_HEIGHT - getHeight() - padding;
+        float yPos = Main.WORLD_SIZE.y - getHeight() - padding;
         this.setPosition(
             padding,
             yPos

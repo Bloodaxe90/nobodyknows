@@ -21,11 +21,11 @@ public class EnemyManager {
     public EnemyManager(TextureAtlas spriteAtlas) {
         this.spriteAtlas = spriteAtlas;
         //TODO positions are messy and need to ne changed
-        enemies.add(new Enemy("professor", new DialogueInteraction(0, true, true), new Vector2((Main.WORLD_WIDTH / 8f ) * 7, Main.WORLD_HEIGHT / 3f),
+        enemies.add(new Enemy("professor", new DialogueInteraction(0, true, true), new Vector2(Main.WORLD_SIZE).scl(7f/8f, 1f/3f),
             new Vector2(16, 16), -1,100, spriteAtlas));
-        enemies.add(new Enemy("comp_student", new DialogueInteraction(0, false, true), new Vector2((Main.WORLD_WIDTH / 8f ) * 5, ((Main.WORLD_HEIGHT / 8f) * 5) - 16),
+        enemies.add(new Enemy("comp_student", new DialogueInteraction(0, false, true), new Vector2(Main.WORLD_SIZE).scl(5f/8f, 5f/8f).add(0f, -16f),
             new Vector2(16, 16), 0,0, spriteAtlas));
-        enemies.add(new Enemy("child", new TakeItemInteraction("keycard", 0,0, true, true), new Vector2(48, Main.WORLD_HEIGHT - (96 * 2)),
+        enemies.add(new Enemy("child", new TakeItemInteraction("keycard", 0,0, true, true), new Vector2(48f, Main.WORLD_SIZE.y - 192f),
             new Vector2(16, 16), 16,200, spriteAtlas));
     }
 

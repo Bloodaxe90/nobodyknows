@@ -30,7 +30,8 @@ public class Main extends ApplicationAdapter {
     private BuildingManager buildingManager;
 
     public boolean playing;
-    public static final int WORLD_WIDTH = 320 * 3, WORLD_HEIGHT = 240 * 3;
+    public static final Vector2 WORLD_SIZE = new Vector2(320 * 3, 240 * 3);
+    public static final Vector2 WORLD_CENTER = new Vector2(WORLD_SIZE).scl(0.5f);
 
 
     private UserIntereface ui;
@@ -41,10 +42,10 @@ public class Main extends ApplicationAdapter {
         spriteBatch = new SpriteBatch();
 
         gameCamera = new OrthographicCamera();
-        gameViewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, gameCamera);
+        gameViewport = new FitViewport(WORLD_SIZE.x, WORLD_SIZE.y, gameCamera);
 
         TiledMap environmentMap = new TmxMapLoader().load("environment/environment.tmx");
-        environment = new Environment(environmentMap, spriteBatch, new Vector2(WORLD_WIDTH / 2, WORLD_HEIGHT / 2 - 100));
+        environment = new Environment(environmentMap, spriteBatch, new Vector2(WORLD_CENTER).sub(new Vector2(0, -100)));
 
         //TODO positions are messy and need to be changed
         player = new Player(
@@ -109,9 +110,7 @@ public class Main extends ApplicationAdapter {
         if (playing) {
             buildingManager.update(player, ui);
             if (!ui.getDialogueBox().isVisible()) {
-                 System.out.println("INITIAL " + player.getPos());
-                // enemyManager.update(delta_t, environment, player, ui);
-                System.out.println("POST " + player.getPos());
+                enemyManager.update(delta_t, environment, player, ui);;
             }
             player.update(delta_t, environment, buildingManager, enemyManager);
 

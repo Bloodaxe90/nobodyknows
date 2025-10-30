@@ -85,9 +85,9 @@ public class Player extends Entity {
         position.x += velocity.x * delta_t;
         hitbox.setXPos(position.x);
 
-        if (position.x < 0 || position.x + size.x > Main.WORLD_WIDTH) {
+        if (position.x < 0 || position.x + size.x > Main.WORLD_SIZE.x) {
             velocity.x = 0;
-            position.x = MathUtils.clamp(position.x, 0, Main.WORLD_WIDTH - size.x);
+            position.x = MathUtils.clamp(position.x, 0, Main.WORLD_SIZE.x - size.x);
         } else if (environment.checkCollision(hitbox) || buildingManager.checkCollision(hitbox) || enemyManager.checkCollision(hitbox)) {
             position.x -= velocity.x * delta_t;
             updateSprite(true);
@@ -99,9 +99,9 @@ public class Player extends Entity {
         hitbox.setYPos(position.y);
 
 
-        if (position.y < 0 || position.y + size.y > Main.WORLD_HEIGHT) {
+        if (position.y < 0 || position.y + size.y > Main.WORLD_SIZE.y) {
             velocity.y = 0;
-            position.y = MathUtils.clamp(position.y, 0, Main.WORLD_HEIGHT - size.y);
+            position.y = MathUtils.clamp(position.y, 0, Main.WORLD_SIZE.y - size.y);
         } else if (environment.checkCollision(hitbox) || buildingManager.checkCollision(hitbox) || enemyManager.checkCollision(hitbox)) {
             position.y -= velocity.y * delta_t;
             updateSprite(true);
