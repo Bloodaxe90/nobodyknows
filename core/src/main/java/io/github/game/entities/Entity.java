@@ -1,17 +1,24 @@
 package io.github.game.entities;
-import com.badlogic.gdx.graphics.g2d.*;
+import java.util.HashMap;
+import java.util.Map;
+
+import com.badlogic.gdx.graphics.g2d.Animation;
+import com.badlogic.gdx.graphics.g2d.Sprite;
+import com.badlogic.gdx.graphics.g2d.SpriteBatch;
+import com.badlogic.gdx.graphics.g2d.TextureAtlas;
+import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.Vector2;
+
 import io.github.game.utils.Hitbox;
 import io.github.game.utils.io.AnimationLoader;
 
-import java.util.*;
-
 public abstract class Entity {
     protected String name;
-    protected float xPos, yPos;
-    protected int width, height;
+    protected Vector2 position;
+    protected Vector2 size;
 
     protected float speed;
-    protected float vx = 0, vy = 0;
+    protected Vector2 velocity = new Vector2(0f, 0f);
 
     protected Hitbox hitbox;
     protected boolean collidable;
@@ -24,34 +31,32 @@ public abstract class Entity {
     protected boolean active = true;
 
     public Entity(String name,
-                  float xPos, float yPos,
-                  int width, int height,
-                  float hitboxXOffset, float hitboxYOffset,
-                  int hitboxWidth, int hitboxHeight,
+                  Vector2 position,
+                  Vector2 size,
+                  Vector2 hitboxOffset,
+                  Vector2 hitboxSize,
                   float speed,
                   boolean collidable) {
         this.name = name;
-        this.xPos = xPos;
-        this.yPos = yPos;
-        this.width = width;
-        this.height = height;
+        this.position = new Vector2(position);
+        this.size = size;
         this.speed = speed;
         this.collidable = collidable;
 
         //Sets hitbox to be default of
         if (this.collidable) {
-            this.hitbox = new Hitbox(xPos, yPos, hitboxWidth, hitboxHeight, hitboxXOffset, hitboxYOffset);
+            this.hitbox = new Hitbox(position, hitboxSize, hitboxOffset);
         }
     }
 
-    public Entity(String name, float xPos, float yPos, int width, int height, float speed, boolean collidable) {
+    public Entity(String name, Vector2 position, Vector2 size, float speed, boolean collidable) {
         //Entity with Hitbox same size as player
-        this(name, xPos, yPos, width, height, 0, 0, width, height, speed, collidable);
+        this(name, position, size, new Vector2(0f, 0f), size, speed, collidable);
     }
 
     public void render(SpriteBatch batch) {
         if (active) {
-            batch.draw(sprite, xPos, yPos, width, height);
+            batch.draw(sprite, position.x, position.y, size.x, size.y);
         }
     };
 
@@ -65,43 +70,33 @@ public abstract class Entity {
         sprite = new Sprite(animationMap.get(name).getKeyFrame(stateTime));
     }
 
-    public float getXPos() {
-        return xPos;
+    public Vector2 getPos() {
+        return position;
     }
 
-    public float getYPos() {
-        return yPos;
+    public void setXPos(Float XPos) {
+        this.position.x = XPos;
+        hitbox.setXPos(XPos);
     }
 
-    public void setXPos(float xPos) {
-        this.xPos = xPos;
-        hitbox.setXPos(xPos);
+    public void setYPos(Float YPos) {
+        this.position.y = YPos;
+        hitbox.setYPos(YPos);
     }
 
-    public void setYPos(float yPos) {
-        this.yPos = yPos;
-        hitbox.setYPos(yPos);
-    }
 
-    public int getWidth() {
-        return width;
-    }
-
-    public int getHeight() {
-        return height;
+    public Vector2 getSize() {
+        return size;
     }
 
     public float getSpeed() {
         return speed;
     }
 
-    public float getVx() {
-        return vx;
+    public Vector2 getVelocity() {
+        return velocity;
     }
 
-    public float getVy() {
-        return vy;
-    }
 
     public String getName() {
         return name;

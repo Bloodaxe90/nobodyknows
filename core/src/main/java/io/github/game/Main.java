@@ -9,6 +9,7 @@ import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
+import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
 import com.badlogic.gdx.utils.viewport.FitViewport;
 
@@ -43,13 +44,13 @@ public class Main extends ApplicationAdapter {
         gameViewport = new FitViewport(WORLD_WIDTH, WORLD_HEIGHT, gameCamera);
 
         TiledMap environmentMap = new TmxMapLoader().load("environment/environment.tmx");
-        environment = new Environment(environmentMap, spriteBatch);
+        environment = new Environment(environmentMap, spriteBatch, new Vector2(WORLD_WIDTH / 2, WORLD_HEIGHT / 2 - 60));
 
         //TODO positions are messy and need to be changed
         player = new Player(
             "Player",
-            (Main.WORLD_WIDTH / 2f), (Main.WORLD_HEIGHT / 2f) - 100,
-            16, 16,
+            environment.getSpawn(),
+            new Vector2(16, 16),
             2f, 200,
             new TextureAtlas("atlas/character.atlas"));
 
@@ -114,6 +115,9 @@ public class Main extends ApplicationAdapter {
 
         }
         ui.update(delta_t, playing, player);
+
+        System.out.println(player.getPos());
+        System.out.println(player.getVelocity());
     }
 
 

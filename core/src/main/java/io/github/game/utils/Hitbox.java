@@ -1,40 +1,33 @@
 package io.github.game.utils;
 
 import com.badlogic.gdx.math.Rectangle;
+import com.badlogic.gdx.math.Vector2;
 
 public class Hitbox {
-    private float xOffset, yOffset;
+    private Vector2 offset;
     private Rectangle bounds;
 
 
-    public Hitbox(float xPos, float yPos, int width, int height, float xOffset, float yOffset) {
-        this.bounds = new Rectangle(xPos + xOffset, yPos + yOffset, width, height);
-        this.xOffset = xOffset;
-        this.yOffset = yOffset;
+    public Hitbox(Vector2 position, Vector2 size, Vector2 offset) {
+        this.bounds = new Rectangle(position.x + offset.x, position.y + offset.y, size.x, size.y);
+        this.offset = offset;
     }
 
-    public Hitbox(float xPos, float yPos, int width, int height) {
-        this(xPos, yPos, width, height, 0, 0);
+    public Hitbox(Vector2 position, Vector2 size) {
+        this(position, size, new Vector2(0f, 0f));
     }
 
     public boolean collides(Hitbox obstacle) {
         return this.bounds.overlaps(obstacle.getBounds());
     }
 
-    public float getWidth() {
-        return this.bounds.getWidth();
+    public Vector2 getSize() {
+        return new Vector2(this.bounds.getWidth(), this.bounds.getHeight());
     }
 
-    public float getHeight() {
-        return this.bounds.getHeight();
-    }
-
-    public void setWidth(float width) {
-        this.bounds.setWidth(width);
-    }
-
-    public void setHeight(float height) {
-        this.bounds.setHeight(height);
+    public void setSize(Vector2 size) {
+        this.bounds.setWidth(size.x);
+        this.bounds.setHeight(size.y);
     }
 
     public float getX() {
@@ -45,23 +38,20 @@ public class Hitbox {
         return this.bounds.getY();
     }
 
-    public void setXPos(float xPos) {
-        this.bounds.setX(xPos + xOffset);
+    public void setXPos(float XPos) {
+        this.bounds.setX(XPos + offset.x);
     }
 
-    public void setYPos(float yPos) {
-        this.bounds.setY(yPos + yOffset);
+    public void setYPos(float YPos) {
+        this.bounds.setY(YPos + offset.y);
     }
 
     public Rectangle getBounds() {
         return bounds;
     }
 
-    public void setXOffset(float xOffset) {
-        this.xOffset = xOffset;
-    }
-
-    public void setYOffset(float yOffset) {
-        this.yOffset = yOffset;
+    public void setOffset(Vector2 offset) {
+        this.offset.x = offset.x;
+        this.offset.y = offset.y;
     }
 }
