@@ -2,6 +2,7 @@ package io.github.game.utils;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.graphics.g2d.SpriteBatch;
 import com.badlogic.gdx.graphics.glutils.ShaderProgram;
+
 import io.github.game.Main;
 
 public class Torch {
@@ -18,7 +19,7 @@ public class Torch {
     public void render(float xPos, float yPos, SpriteBatch batch) {
         shader.bind();
         shader.setUniformf("u_resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        shader.setUniformf("u_lightPos", xPos / Main.WORLD_WIDTH, yPos / Main.WORLD_HEIGHT);
+        shader.setUniformf("u_lightPos", xPos / Main.WORLD_SIZE.x, yPos / Main.WORLD_SIZE.y);
         batch.setShader(shader);
 
     }
