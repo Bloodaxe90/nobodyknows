@@ -3,6 +3,7 @@ package io.github.game.ui;
 // Make sure to import ScrollPane and its style
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
+import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.scenes.scene2d.Stage;
 import com.badlogic.gdx.scenes.scene2d.ui.Label;
 import com.badlogic.gdx.scenes.scene2d.ui.ScrollPane;
@@ -12,6 +13,7 @@ import com.badlogic.gdx.scenes.scene2d.utils.TextureRegionDrawable;
 import com.badlogic.gdx.utils.Align;
 
 import io.github.game.Main;
+import io.github.game.utils.io.AudioPlayer;
 
 public class DialogueBox extends Table {
 
@@ -81,7 +83,16 @@ public class DialogueBox extends Table {
 
         while (textTimer >= letterTime && visibleTextLength < fullText.length()) {
             visibleTextLength++;
+            if (fullText.charAt(visibleTextLength - 1) == '.' || fullText.charAt(visibleTextLength - 1) == ':') {
+                textTimer -= letterTime;
+                textTimer -= 0.5f;
+            }
+            else if (fullText.charAt(visibleTextLength - 1) == ',' || fullText.charAt(visibleTextLength - 1) == ';') {
+                textTimer -= letterTime;
+                textTimer -= 0.2f;
+            }
             textTimer -= letterTime;
+            AudioPlayer.playSound("footstep" + MathUtils.random(1, 3), 0.5f, MathUtils.random(0.5f, 5f));
         }
 
         if (oldLength != visibleTextLength) {

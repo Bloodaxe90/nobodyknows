@@ -4,7 +4,6 @@ import java.util.HashMap;
 import com.badlogic.gdx.Gdx;
 import com.badlogic.gdx.audio.Music;
 import com.badlogic.gdx.audio.Sound;
-import com.badlogic.gdx.math.MathUtils;
 
 public class AudioPlayer {
 
@@ -53,14 +52,13 @@ public class AudioPlayer {
         sound.play(volume);
     }
 
-//    was causing issues so commented it out
-//    public static void playSound(String key, float volume, float pitch) {
-//        if (!sounds.containsKey(key)) {
-//            addSound(key);
-//        }
-//        Sound sound = sounds.get(key);
-//        sound.play(volume, pitch, 1.0f);
-//    }
+   public static void playSound(String key, float volume, float pitch) {
+       if (!sounds.containsKey(key)) {
+           addSound(key);
+       }
+       Sound sound = sounds.get(key);
+       sound.play(volume, pitch, 1.0f);
+   }
 
     public static void setMusicEnabled(boolean status) {
         musicEnabled = status;

@@ -121,7 +121,7 @@ public class Player extends Entity {
             footstepTimer = 0;
         } else {
             if (footstepTimer > footstepTimeout || footstepTimer == 0) {
-                AudioPlayer.playSound("footstep" + MathUtils.random(1, 3), 0.5f);
+                AudioPlayer.playSound("footstep" + MathUtils.random(1, 3), 0.5f, MathUtils.random(0.8f, 2f));
                 footstepTimer = 0;
             }
             footstepTimer += delta_t;
