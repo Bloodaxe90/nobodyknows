@@ -83,7 +83,7 @@ public class DialogueBox extends Table {
 
         while (textTimer >= letterTime && visibleTextLength < fullText.length()) {
             visibleTextLength++;
-            if (fullText.charAt(visibleTextLength - 1) == '.' || fullText.charAt(visibleTextLength - 1) == ':') {
+            if (fullText.charAt(visibleTextLength - 1) == '.' || fullText.charAt(visibleTextLength - 1) == ':' || fullText.charAt(visibleTextLength - 1) == '?' || fullText.charAt(visibleTextLength - 1) == '!') {
                 textTimer -= letterTime;
                 textTimer -= 0.5f;
             }
