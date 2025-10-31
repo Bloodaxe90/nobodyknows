@@ -39,7 +39,8 @@ public class StatusBar extends Table {
     private void updateStatusText() {
         int minutes = (int) (timeRemaining / 60);
         int seconds = (int) (timeRemaining % 60);
-        status.setText("Events: " + eventsCompleted + "/" + MAX_EVENTS + "\nTime: " + minutes + ":" + seconds);
+        String formattedTime = String.format("%d:%02d", minutes, seconds);
+        status.setText("Events: " + eventsCompleted + "/" + MAX_EVENTS + "\nTime: " + formattedTime);
     }
 
     public void incrementEventCounter() {
