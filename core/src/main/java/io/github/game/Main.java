@@ -54,7 +54,7 @@ public class Main extends ApplicationAdapter {
             new Vector2(16, 16),
             new Vector2(6, 0),
             new Vector2(4, 4),
-            2f, 200,
+            2f, 100,
             new TextureAtlas("atlas/character.atlas"));
 
         enemyManager = new EnemyManager(new TextureAtlas("atlas/enemies.atlas"));
@@ -63,7 +63,7 @@ public class Main extends ApplicationAdapter {
 
         ui = new UserIntereface(0.05f, new TextureAtlas("ui/ui.atlas"), gameViewport);
         playing = false;
-        AudioPlayer.playTrack("bgm", 0.1f);
+        AudioPlayer.playTrack("bgm", 0.3f);
         AudioPlayer.setMusicEnabled(false);
 
     }

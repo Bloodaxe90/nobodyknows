@@ -92,7 +92,7 @@ public class DialogueBox extends Table {
                 textTimer -= 0.2f;
             }
             textTimer -= letterTime;
-            AudioPlayer.playSound("footstep" + MathUtils.random(1, 3), 0.5f, MathUtils.random(0.5f, 5f));
+            AudioPlayer.playSound("speak1", 0.5f, MathUtils.random(0.9f, 1.1f));
         }
 
         if (oldLength != visibleTextLength) {
