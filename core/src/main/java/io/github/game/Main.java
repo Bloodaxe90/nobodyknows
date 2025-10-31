@@ -54,7 +54,7 @@ public class Main extends ApplicationAdapter {
             new Vector2(16, 16),
             new Vector2(6, 0),
             new Vector2(4, 4),
-            2f, 100,
+            3f, 100,
             new TextureAtlas("atlas/character.atlas"));
 
         enemyManager = new EnemyManager(new TextureAtlas("atlas/enemies.atlas"));

@@ -90,7 +90,6 @@ public class Player extends Entity {
             position.x = MathUtils.clamp(position.x, 0, Main.WORLD_SIZE.x - size.x);
         } else if (environment.checkCollision(hitbox) || buildingManager.checkCollision(hitbox) || enemyManager.checkCollision(hitbox)) {
             position.x -= velocity.x * delta_t;
-            updateSprite(true);
             velocity.x = 0;
             hitbox.setXPos(position.x);
         }
@@ -104,12 +103,12 @@ public class Player extends Entity {
             position.y = MathUtils.clamp(position.y, 0, Main.WORLD_SIZE.y - size.y);
         } else if (environment.checkCollision(hitbox) || buildingManager.checkCollision(hitbox) || enemyManager.checkCollision(hitbox)) {
             position.y -= velocity.y * delta_t;
-            updateSprite(true);
             velocity.y = 0;
             hitbox.setYPos(position.y);
         }
+            updateSprite();
 
-        updateSprite(false);
+
         updateSFX(delta_t);
         stateTime += delta_t;
 
@@ -128,17 +127,28 @@ public class Player extends Entity {
         }
     }
 
-    private void updateSprite(boolean isIdle) {
-        String prefix = isIdle ? "idle" : "";
+    private void updateSprite() {
 
         if (velocity.x > 0) {
-            setSprite(prefix + "right", stateTime);
+            setSprite("right", stateTime);
+            currentDirection = Direction.RIGHT;
         } else if (velocity.x < 0) {
-            setSprite(prefix + "left", stateTime);
+            setSprite("left", stateTime);
+            currentDirection = Direction.LEFT;
         } else if (velocity.y > 0) {
-            setSprite(prefix + "back", stateTime);
+            setSprite("back", stateTime);
+            currentDirection = Direction.UP;
         } else if (velocity.y < 0) {
-            setSprite(prefix + "front", stateTime);
+            setSprite("front", stateTime);
+            currentDirection = Direction.DOWN;
+        }
+        else {
+            switch (currentDirection) {
+                case UP -> setSprite("idleback", stateTime);
+                case DOWN -> setSprite("idlefront", stateTime);
+                case LEFT -> setSprite("idleleft", stateTime);
+                case RIGHT -> setSprite("idleright", stateTime);
+            }
         }
     }
 

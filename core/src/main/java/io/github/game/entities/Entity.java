@@ -19,6 +19,8 @@ public abstract class Entity {
 
     protected float speed;
     protected Vector2 velocity = new Vector2(0f, 0f);
+    protected enum Direction {UP, DOWN, LEFT, RIGHT};
+    protected Direction currentDirection;
 
     protected Hitbox hitbox;
     protected boolean collidable;
@@ -42,6 +44,7 @@ public abstract class Entity {
         this.size = size;
         this.speed = speed;
         this.collidable = collidable;
+        currentDirection = Direction.DOWN;
 
         //Sets hitbox to be default of
         if (this.collidable) {
