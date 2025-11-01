@@ -1,6 +1,10 @@
 package io.github.game.ui;
 
 // Make sure to import ScrollPane and its style
+import java.util.ArrayList;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
+
 import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.graphics.g2d.TextureRegion;
 import com.badlogic.gdx.math.MathUtils;
@@ -22,6 +26,7 @@ public class DialogueBox extends Table {
     private int visibleTextLength = 0;
     private float letterTime;
     private float textTimer = 0;
+    ArrayList<String> sounds;
 
     private boolean isFinished = false;
 
@@ -51,12 +56,31 @@ public class DialogueBox extends Table {
     }
 
     public void startDialogue(String text) {
-        this.fullText = text;
+        this.fullText = addSFX(text);
         this.visibleTextLength = 0;
         this.textTimer = 0f;
         this.isFinished = false;
         this.textLabel.setText("");
         scrollPane.setScrollY(0);
+    }
+
+    // Adds SFX to a list and replaces their placeholder with an invisible character
+    public String addSFX(String text) {
+        sounds = new ArrayList<>();
+        // Regex to find curly brackets contents
+        Pattern pattern = Pattern.compile("\\{(.*?)}");
+        Matcher matcher = pattern.matcher(text);
+
+        StringBuffer result = new StringBuffer();
+
+        while (matcher.find()) {
+            sounds.add(matcher.group(1));
+            matcher.appendReplacement(result, "\u200B");
+        }
+        matcher.appendTail(result);
+
+        return result.toString();
+
     }
 
     public void skip() {
@@ -90,6 +114,10 @@ public class DialogueBox extends Table {
             else if (fullText.charAt(visibleTextLength - 1) == ',' || fullText.charAt(visibleTextLength - 1) == ';') {
                 textTimer -= letterTime;
                 textTimer -= 0.2f;
+            }
+            else if (fullText.charAt(visibleTextLength - 1) == '\u200B') {
+                AudioPlayer.playSound(sounds.get(0), 1f);
+                sounds.remove(0);
             }
             textTimer -= letterTime;
             AudioPlayer.playSound("speak1", 0.5f, MathUtils.random(0.9f, 1.1f));
