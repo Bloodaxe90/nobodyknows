@@ -7,6 +7,7 @@ import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
 
+import com.badlogic.gdx.utils.viewport.FitViewport;
 import io.github.game.Environment;
 import io.github.game.Main;
 import io.github.game.entities.Entity;
@@ -100,12 +101,12 @@ public class Player extends Entity {
      *
      * @param batch sprite batch used to draw graphics
      */
-    @Override
-    public void render(SpriteBatch batch) {
+    public void render(SpriteBatch batch, FitViewport viewport) {
         super.render(batch);
         if (active) {
             // draw torch centered on player
-            torch.render(position.x + (size.x / 2f), position.y + (size.y / 2f), batch);
+            Vector2 screenPosition = viewport.project(new Vector2(position.x + (size.x / 2f), position.y + (size.y / 2f)));
+            torch.render(screenPosition.x, screenPosition.y, batch);
         }
     }
 

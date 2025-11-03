@@ -11,7 +11,7 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.FitViewport;
+import com.badlogic.gdx.utils.viewport.*;
 
 import io.github.game.entities.building.BuildingManager;
 import io.github.game.entities.enemy.EnemyManager;
@@ -155,7 +155,7 @@ public class Main extends ApplicationAdapter {
         // Draw world objects (order matters!)
         buildingManager.render(spriteBatch);
         enemyManager.render(spriteBatch);
-        player.render(spriteBatch);
+        player.render(spriteBatch, gameViewport);
 
         spriteBatch.end();
 
