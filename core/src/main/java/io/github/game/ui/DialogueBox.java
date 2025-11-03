@@ -107,18 +107,28 @@ public class DialogueBox extends Table {
 
         while (textTimer >= letterTime && visibleTextLength < fullText.length()) {
             visibleTextLength++;
-            if (fullText.charAt(visibleTextLength - 1) == '.' || fullText.charAt(visibleTextLength - 1) == ':' || fullText.charAt(visibleTextLength - 1) == '?' || fullText.charAt(visibleTextLength - 1) == '!') {
-                textTimer -= letterTime;
-                textTimer -= 0.5f;
+            // Handles punctuation and SFX.
+            char thisChar = fullText.charAt(visibleTextLength - 1);
+            switch (thisChar) {
+                case '.':
+                case ':':
+                case '?':
+                case '!':
+                    textTimer -= letterTime;
+                    textTimer -= 0.5f;
+                    break;
+                case ',':
+                case ';':
+                    textTimer -= letterTime;
+                    textTimer -= 0.2f;
+                    break;
+                case '\u200B':
+                    AudioPlayer.playSound(sounds.get(0), 1f);
+                    sounds.remove(0);
+                default:
+                    break;
             }
-            else if (fullText.charAt(visibleTextLength - 1) == ',' || fullText.charAt(visibleTextLength - 1) == ';') {
-                textTimer -= letterTime;
-                textTimer -= 0.2f;
-            }
-            else if (fullText.charAt(visibleTextLength - 1) == '\u200B') {
-                AudioPlayer.playSound(sounds.get(0), 1f);
-                sounds.remove(0);
-            }
+
             textTimer -= letterTime;
             AudioPlayer.playSound("speak1", 1f, MathUtils.random(2f, 3f));
         }
