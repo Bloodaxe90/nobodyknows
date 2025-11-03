@@ -16,12 +16,11 @@ import io.github.game.utils.interactions.GiveItemInteraction;
 public class BuildingManager {
 
     private final TextureAtlas spriteAtlas;
-    private Array<Building> buildings = new Array<>();
+    public Array<Building> buildings = new Array<>();
 
     public BuildingManager(TextureAtlas spriteAtlas) {
         this.spriteAtlas = spriteAtlas;
 
-        //TODO positions are messy and need to be changed
         Vector2 size = new Vector2 (96, 96);
         buildings.add(new Building("greggs", new GiveItemInteraction("sausage_roll", 0, 1, false, true), new Vector2(Main.WORLD_SIZE).scl(1f/2f, 1f).add(96f, size.y), size, spriteAtlas));
         buildings.add(new Building("pza", new DialogueInteraction(0, false, false), new Vector2(Main.WORLD_SIZE).scl(17f/20f, 11f/16f), size, spriteAtlas));

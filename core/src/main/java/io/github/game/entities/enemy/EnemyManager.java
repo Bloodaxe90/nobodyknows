@@ -26,7 +26,7 @@ public class EnemyManager {
         enemies.add(new Enemy("comp_student", new DialogueInteraction(0, false, true), new Vector2(Main.WORLD_SIZE).scl(5f/8f, 5f/8f).add(0f, -16f),
             new Vector2(16, 16), 0,0, spriteAtlas));
         enemies.add(new Enemy("child", new TakeItemInteraction("keycard", 0,0, true, true), new Vector2(48f, Main.WORLD_SIZE.y - 192f),
-            new Vector2(16, 16), 16,200, spriteAtlas));
+            new Vector2(16, 16), 16,100, spriteAtlas));
     }
 
     public void render(SpriteBatch batch) {

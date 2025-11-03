@@ -11,7 +11,7 @@ import io.github.game.utils.interactions.Interaction;
 
 public class Building extends Entity {
 
-    private final Interaction interaction;
+    public Interaction interaction;
     private boolean interact = false;
 
     public Building(String name, Interaction interaction, Vector2 position, Vector2 size, Vector2 hitboxOffset, Vector2 hitboxSize, TextureAtlas spriteAtlas) {

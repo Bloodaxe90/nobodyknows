@@ -17,6 +17,8 @@ import io.github.game.entities.building.BuildingManager;
 import io.github.game.entities.enemy.EnemyManager;
 import io.github.game.entities.player.Player;
 import io.github.game.ui.UserIntereface;
+import io.github.game.utils.interactions.DialogueInteraction;
+import io.github.game.utils.interactions.GiveItemInteraction;
 import io.github.game.utils.io.AudioPlayer;
 
 public class Main extends ApplicationAdapter {
@@ -112,10 +114,17 @@ public class Main extends ApplicationAdapter {
         if (playing) {
             buildingManager.update(player, ui);
             if (!ui.getDialogueBox().isVisible()) {
-                enemyManager.update(delta_t, environment, player, ui);;
+                enemyManager.update(delta_t, environment, player, ui);
             }
             player.update(delta_t, environment, buildingManager, enemyManager);
 
+            // Check for keycard possession
+            if (player.hasItem("keycard")) {
+                buildingManager.buildings.get(2).interaction = new DialogueInteraction(0, false, false);
+            }
+            else {
+                buildingManager.buildings.get(2).interaction = new GiveItemInteraction("keycard", 1, 1, false, true);
+            }
         }
         ui.update(delta_t, playing, player);
     }
