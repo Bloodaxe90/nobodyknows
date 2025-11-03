@@ -120,7 +120,7 @@ public class DialogueBox extends Table {
                 sounds.remove(0);
             }
             textTimer -= letterTime;
-            AudioPlayer.playSound("speak1", 0.5f, MathUtils.random(0.9f, 1.1f));
+            AudioPlayer.playSound("speak1", 1f, MathUtils.random(2f, 3f));
         }
 
         if (oldLength != visibleTextLength) {
