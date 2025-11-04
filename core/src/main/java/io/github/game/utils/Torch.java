@@ -18,8 +18,9 @@ public class Torch {
 
     public void render(float xPos, float yPos, SpriteBatch batch) {
         shader.bind();
+        // TODO issue where torch effect scales incorrectly when window width changes
         shader.setUniformf("u_resolution", Gdx.graphics.getWidth(), Gdx.graphics.getHeight());
-        shader.setUniformf("u_lightPos", xPos / Main.WORLD_SIZE.x, yPos / Main.WORLD_SIZE.y);
+        shader.setUniformf("u_lightPos", xPos / Gdx.graphics.getWidth(), yPos / Gdx.graphics.getHeight());
         batch.setShader(shader);
 
     }
