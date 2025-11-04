@@ -17,6 +17,8 @@ import io.github.game.entities.building.BuildingManager;
 import io.github.game.entities.enemy.EnemyManager;
 import io.github.game.entities.player.Player;
 import io.github.game.ui.UserIntereface;
+import io.github.game.utils.interactions.DialogueInteraction;
+import io.github.game.utils.interactions.GiveItemInteraction;
 import io.github.game.utils.io.AudioPlayer;
 
 /**

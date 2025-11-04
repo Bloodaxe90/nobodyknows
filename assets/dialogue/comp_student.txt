@@ -1,4 +1,5 @@
 Computer Science Student:
+
 Okay, look — I know everyone’s got their own opinion about operating systems, but honestly, once you’ve used Linux long enough, you just get it. Like, Windows feels like being in a padded room where someone hands you crayons and tells you it’s “for your own safety.” macOS? Beautiful, yes, but it’s like living in a glass house — polished, stylish, and completely useless when you want to actually do something. But Linux? Linux is freedom. Linux is chaos. Linux is enlightenment through suffering.
 Now, I’ve tried them all... Ubuntu, Fedora, Pop!_OS, even that weird one my friend swears by that uses i3 and doesn’t even have a desktop environment by default (yeah, he’s that guy). But nothing compares to Arch Linux.
 Arch isn’t just an operating system. It’s a lifestyle. It’s like learning to cook instead of ordering takeout — sure, you could get something fast, but where’s the satisfaction? Installing Arch teaches you more about your machine than any textbook ever could. You don’t just install it — you become it.

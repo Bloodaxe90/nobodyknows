@@ -142,23 +142,32 @@ public class DialogueBox extends Table {
         // Reveal characters based on timer
         while (textTimer >= letterTime && visibleTextLength < fullText.length()) {
             visibleTextLength++;
-
-            char c = fullText.charAt(visibleTextLength - 1);
-
+            // Handles punctuation and SFX.
+            char thisChar = fullText.charAt(visibleTextLength - 1);
             // Add pauses for punctuation
-            if (c == '.' || c == ':' || c == '?' || c == '!') textTimer -= 0.5f;
-            else if (c == ',' || c == ';') textTimer -= 0.2f;
-
-            // Invisible SFX trigger
-            else if (c == '\u200B') {
-                AudioPlayer.playSound(sounds.get(0), 1f);
-                sounds.remove(0);
+            switch (thisChar) {
+                case '.':
+                case ':':
+                case '?':
+                case '!':
+                    textTimer -= letterTime;
+                    textTimer -= 0.5f;
+                    break;
+                case ',':
+                case ';':
+                    textTimer -= letterTime;
+                    textTimer -= 0.2f;
+                    break;
+                // Invisible SFX trigger
+                case '\u200B':
+                    AudioPlayer.playSound(sounds.get(0), 1f);
+                    sounds.remove(0);
+                default:
+                    break;
             }
 
             textTimer -= letterTime;
-
-            // Play typing sound with random pitch variation
-            AudioPlayer.playSound("speak1", 0.5f, MathUtils.random(0.9f, 1.1f));
+            AudioPlayer.playSound("speak1", 1f, MathUtils.random(2f, 3f));
         }
 
         // Update visible text
