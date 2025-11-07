@@ -11,14 +11,12 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.*;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import io.github.game.entities.building.BuildingManager;
 import io.github.game.entities.enemy.EnemyManager;
 import io.github.game.entities.player.Player;
 import io.github.game.ui.UserIntereface;
-import io.github.game.utils.interactions.DialogueInteraction;
-import io.github.game.utils.interactions.GiveItemInteraction;
 import io.github.game.utils.io.AudioPlayer;
 
 /**

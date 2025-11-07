@@ -110,7 +110,7 @@ public class EnemyManager {
     }
 
     /**
-     * Clean up
+     * Clean up memory
      */
     public void dispose() {
         spriteAtlas.dispose();
