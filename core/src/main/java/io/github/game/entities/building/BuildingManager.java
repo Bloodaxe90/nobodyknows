@@ -38,43 +38,55 @@ public class BuildingManager {
 
         buildings.add(new Building("greggs",
             new GiveItemInteraction("sausage_roll", 0, 1, false, true),
-            new Vector2(Main.WORLD_SIZE).scl(1f/2f, 1f).add(96f, size.y),
-            size, spriteAtlas));
+            new Vector2(Main.WORLD_SIZE).sub(size.x, size.y * (2f/3f)),
+            new Vector2(size), spriteAtlas));
 
         buildings.add(new Building("pza",
             new DialogueInteraction(0, false, false),
-            new Vector2(Main.WORLD_SIZE).scl(17f/20f, 11f/16f),
-            size, spriteAtlas));
+            new Vector2(Main.WORLD_SIZE).scl(16.5f/20f, 11f/16f),
+            new Vector2(size), spriteAtlas));
 
         buildings.add(new Building("rch",
             new GiveItemInteraction("keycard", 0, 1, false, true),
             new Vector2(Main.WORLD_SIZE).scl(7f/8f, 1f/3f),
-            size, spriteAtlas));
+            new Vector2(size), spriteAtlas));
 
         buildings.add(new Building("halifax",
             new DialogueInteraction(0, false, false),
-            new Vector2(Main.WORLD_SIZE).scl(1f/4f, 1f).add(0f, -size.y),
-            size, spriteAtlas));
+            new Vector2(Main.WORLD_SIZE).scl(1.5f/8f, 1f).sub(0f, size.y),
+            new Vector2(size),
+            new Vector2(0f, 0f),
+            new Vector2(size.x - 10f, size.y / 2f),
+            spriteAtlas));
 
         buildings.add(new Building("derwent",
             new DialogueInteraction(0, false, false),
-            new Vector2(48f, Main.WORLD_SIZE.y - size.y * 2f),
-            size, spriteAtlas));
+            new Vector2(Main.WORLD_SIZE).scl(0, 4f/6f),
+            new Vector2(size),
+            new Vector2(10f, 0f),
+            new Vector2(size.x - 20f, size.y / 2f),
+            spriteAtlas));
 
         buildings.add(new Building("compsci",
             new DialogueInteraction(0, false, false),
-            new Vector2(Main.WORLD_SIZE).scl(5f/8f, 5f/8f),
+            new Vector2(Main.WORLD_SIZE).scl(4f/8f, 1).sub(0f, size.y * (2f/3f)),
             size, spriteAtlas));
 
         buildings.add(new Building("home",
             new GameWinInteraction("keycard", 0, false, true),
+            new Vector2(Main.WORLD_SIZE).scl(0, 1f/10f),
+            new Vector2(size),
             new Vector2(0f, 0f),
-            size, spriteAtlas));
+            new Vector2(size.x, size.y * (2f/3f)),
+            spriteAtlas));
 
         buildings.add(new Building("central",
             new DialogueInteraction(0, false, false),
-            new Vector2(Main.WORLD_SIZE).scl(1f/2f, 1f/2f).add(size.x*2f, size.y*2f),
-            size, spriteAtlas));
+            new Vector2(Main.WORLD_SIZE).scl(1f/2f).add(24, 24),
+            new Vector2(size),
+            new Vector2(10f, 0f),
+            new Vector2(size.x - 20f, size.y / 2f),
+            spriteAtlas));
     }
 
     /**

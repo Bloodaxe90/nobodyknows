@@ -31,28 +31,29 @@ public class EnemyManager {
     public EnemyManager(TextureAtlas spriteAtlas) {
         this.spriteAtlas = spriteAtlas;
 
+        Vector2 size = new Vector2(16, 16);
         // TODO: rough enemy placement, can be organized later
         enemies.add(new Enemy("professor",
             new DialogueInteraction(0, true, true),
             new Vector2(Main.WORLD_SIZE).scl(7f/8f, 1f/3f),
-            new Vector2(16, 16),
+            new Vector2(size),
             -1,
             100,
             spriteAtlas));
 
         enemies.add(new Enemy("comp_student",
             new DialogueInteraction(0, false, true),
-            new Vector2(Main.WORLD_SIZE).scl(5f/8f, 5f/8f).add(0f, -16f),
-            new Vector2(16, 16),
+            new Vector2(Main.WORLD_SIZE).scl(1f/2f, 9f/10f),
+            new Vector2(size),
             0,
             0,
             spriteAtlas));
 
         enemies.add(new Enemy("child",
             new TakeItemInteraction("keycard", 0, 0, true, true),
-            new Vector2(48f, Main.WORLD_SIZE.y - 192f),
-            new Vector2(16, 16),
-            16,
+            new Vector2(0, Main.WORLD_SIZE.y - 192f),
+            new Vector2(size),
+            12,
             200,
             spriteAtlas));
     }

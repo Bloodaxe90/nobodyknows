@@ -51,7 +51,7 @@ public class Main extends ApplicationAdapter {
 
         // Load the map made in tiled
         TiledMap environmentMap = new TmxMapLoader().load("environment/environment.tmx");
-        environment = new Environment(environmentMap, spriteBatch, new Vector2(WORLD_CENTER).add(0, -100f));
+        environment = new Environment(environmentMap, spriteBatch, new Vector2(WORLD_CENTER).add(20, 20));
 
         // TODO: player spawn position is temporary / messy rn
         player = new Player(
