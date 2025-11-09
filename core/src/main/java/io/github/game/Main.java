@@ -59,7 +59,7 @@ public class Main extends ApplicationAdapter {
             environment.getSpawn(),
             new Vector2(16, 16),
             new Vector2(6, 0),
-            new Vector2(4, 4),
+            new Vector2(6, 4),
             3f, 100,
             new TextureAtlas("atlas/character.atlas"));
 
