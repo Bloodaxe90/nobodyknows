@@ -73,7 +73,7 @@ public class BuildingManager {
 
         buildings.add(new Building("central",
             new DialogueInteraction(0, false, false),
-            new Vector2(Main.WORLD_SIZE).scl(1f/2f, 1f/2f).add(-size.x/2f, -size.y/2f),
+            new Vector2(Main.WORLD_SIZE).scl(1f/2f, 1f/2f).add(size.x*2f, size.y*2f),
             size, spriteAtlas));
     }
 

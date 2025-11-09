@@ -6,8 +6,8 @@ import com.badlogic.gdx.graphics.g2d.TextureAtlas;
 import com.badlogic.gdx.math.MathUtils;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.Array;
-
 import com.badlogic.gdx.utils.viewport.FitViewport;
+
 import io.github.game.Environment;
 import io.github.game.Main;
 import io.github.game.entities.Entity;
