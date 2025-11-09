@@ -11,14 +11,12 @@ import com.badlogic.gdx.maps.tiled.TiledMap;
 import com.badlogic.gdx.maps.tiled.TmxMapLoader;
 import com.badlogic.gdx.math.Vector2;
 import com.badlogic.gdx.utils.ScreenUtils;
-import com.badlogic.gdx.utils.viewport.*;
+import com.badlogic.gdx.utils.viewport.FitViewport;
 
 import io.github.game.entities.building.BuildingManager;
 import io.github.game.entities.enemy.EnemyManager;
 import io.github.game.entities.player.Player;
 import io.github.game.ui.UserIntereface;
-import io.github.game.utils.interactions.DialogueInteraction;
-import io.github.game.utils.interactions.GiveItemInteraction;
 import io.github.game.utils.io.AudioPlayer;
 
 /**
@@ -61,7 +59,7 @@ public class Main extends ApplicationAdapter {
             environment.getSpawn(),
             new Vector2(16, 16),
             new Vector2(6, 0),
-            new Vector2(4, 4),
+            new Vector2(6, 4),
             3f, 100,
             new TextureAtlas("atlas/character.atlas"));
 

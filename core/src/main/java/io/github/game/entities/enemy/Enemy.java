@@ -119,7 +119,6 @@ public class Enemy extends Entity {
         stateTime += delta_t;
 
         // update sprite
-        // TODO later: make animation change like the player's
         updateSprite(false);
 
         // activate interaction once
